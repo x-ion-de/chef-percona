@@ -1,0 +1,351 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>chef-percona by phlipper</title>
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/main.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+  </head>
+  <body>
+
+      <header>
+        <h1>chef-percona</h1>
+        <p>Chef cookbooks for Percona MySQL components</p>
+      </header>
+
+      <div id="banner">
+        <span id="logo"></span>
+
+        <a href="https://github.com/phlipper/chef-percona" class="button fork"><strong>View On GitHub</strong></a>
+        <div class="downloads">
+          <span>Downloads:</span>
+          <ul>
+            <li><a href="https://github.com/phlipper/chef-percona/zipball/master" class="button">ZIP</a></li>
+            <li><a href="https://github.com/phlipper/chef-percona/tarball/master" class="button">TAR</a></li>
+          </ul>
+        </div>
+      </div><!-- end banner -->
+
+    <div class="wrapper">
+      <nav>
+        <ul></ul>
+      </nav>
+      <section>
+        <h1>chef-percona</h1>
+
+<h2>Description</h2>
+
+<p>Installs the <a href="http://www.percona.com/software/percona-server">Percona MySQL</a> client and/or server components. Optionally installs:</p>
+
+<ul>
+<li>
+<a href="http://www.percona.com/software/percona-xtrabackup/">XtraBackup</a> hot backup software</li>
+<li>
+<a href="http://www.percona.com/software/percona-toolkit/">Percona Toolkit</a> advanced command-line tools</li>
+<li>
+<a href="http://www.percona.com/software/percona-xtradb-cluster/">XtraDB Cluster</a> high availability and high scalability solution for MySQL</li>
+</ul><h2>Requirements</h2>
+
+<h3>Supported Platforms</h3>
+
+<p>The following platforms are supported by this cookbook, meaning that the recipes run on these platforms without error:</p>
+
+<ul>
+<li>Ubuntu</li>
+<li>Debian</li>
+</ul><h3>Cookbooks</h3>
+
+<ul>
+<li>
+<a href="http://community.opscode.com/cookbooks/apt">apt</a> Opscode LWRP Cookbook</li>
+</ul><h2>Recipes</h2>
+
+<ul>
+<li>
+<code>percona</code> - The default recipe. This sets up the apt repository and install common packages.</li>
+<li>
+<code>percona::client</code> - Installs the Percona MySQL client libraries.</li>
+<li>
+<code>percona::server</code> - Installs and configures the Percona MySQL server daemon.</li>
+<li>
+<code>percona::backup</code> - Installs and configures the Percona XtraBackup hot backup software.</li>
+<li>
+<code>percona::toolkit</code> - Installs the Percona Toolkit software</li>
+<li>
+<code>percona::cluster</code> - Installs the Percona XtraDB Cluster server components</li>
+<li>
+<code>percona::replication</code> - Used internally to grant permissions for replication.</li>
+<li>
+<code>percona::access_grants</code> - Used internally to grant permissions for recipes.</li>
+</ul><h2>Usage</h2>
+
+<p>This cookbook installs the Percona MySQL components if not present, and pulls updates if they are installed on the system.</p>
+
+<h3>Encrypted Passwords</h3>
+
+<p>This cookbook supports <a href="http://wiki.opscode.com/display/chef/Encrypted+Data+Bags">Encrypted Data Bags</a>.</p>
+
+<p>To use encrypted passwords, you must create an encrypted data bag. This cookbook assumes a data bag named <code>passwords</code>, but you can override the name using the <code>node[:percona][:encrypted_data_bag]</code> attribute.</p>
+
+<p>This cookbook expects a <code>mysql</code> item  and a <code>system</code> item.</p>
+
+<h4>mysql item</h4>
+
+<p>The mysql item should contain entries for root, backup, and replicaiton. If no value is found, the cookbook will fall back to the default non-encrypted password.</p>
+
+<h4>system item</h4>
+
+<p>The "system" item should contain an entry for the debian system user as specified in the <code>node[:percona][:server][:debian_username]</code> attribute. If no such entry is found, the cookbook will fall back to the default non-encrypted password.</p>
+
+<p>Example: "passwords" data bag - this example assumes that <code>node[:percona][:server][:debian_username] = spud</code></p>
+
+<div class="highlight">
+<pre><span class="p">{</span>
+  <span class="s2">"mysql"</span> <span class="o">:</span>
+  <span class="p">{</span>
+    <span class="s2">"root"</span> <span class="o">:</span> <span class="s2">"trywgFA6R70NO28PNhMpGhEvKBZuxouemnbnAUQsUyo=\n"</span>
+    <span class="s2">"backup"</span> <span class="o">:</span> <span class="s2">"eqoiudfj098389fjadfkadf=\n"</span>
+    <span class="s2">"replication"</span> <span class="o">:</span> <span class="s2">"qwo0fj0213fm9020fm2023fjsld=\n"</span>
+  <span class="p">},</span>
+  <span class="s2">"system"</span> <span class="o">:</span>
+  <span class="p">{</span>
+    <span class="s2">"spud"</span> <span class="o">:</span> <span class="s2">"dwoifm2340f024jfadgfu243hf2=\n"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
+</div>
+
+
+<p>Above shows the encrypted password in the data bag. Check out the <code>encrypted_data_bag_secret</code> setting in <code>knife.rb</code> to setup your data bag secret during bootstrapping.</p>
+
+<h2>Attributes</h2>
+
+<div class="highlight">
+<pre><span class="c1"># Cookbook Settings</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"keyserver"</span><span class="o">]</span>                                 <span class="o">=</span> <span class="s2">"keys.gnupg.net"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"encrypted_data_bag"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"passwords"</span>
+
+<span class="c1"># Basic Settings</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"role"</span><span class="o">]</span>                            <span class="o">=</span> <span class="s2">"standalone"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"mysql"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"datadir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/lib/mysql"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                      <span class="o">=</span> <span class="s2">"/etc/mysql/conf.d/"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmpdir"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/tmp"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"root_password"</span><span class="o">]</span>                   <span class="o">=</span> <span class="s2">"123-changeme"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_username"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"debian-sys-maint"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_password"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"123-changeme"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.sock"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"nice"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">0</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"open_files_limit"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">16384</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"hostname"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"localhost"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"basedir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/usr"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.pid"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"port"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">3306</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"language"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/usr/share/mysql/english"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_external_locking"</span><span class="o">]</span>           <span class="o">=</span> <span class="kp">true</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"net_read_timeout"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">120</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"old_passwords"</span><span class="o">]</span>                   <span class="o">=</span> <span class="mi">1</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"bind_address"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"127.0.0.1"</span>
+
+<span class="c1"># Fine Tuning</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"key_buffer"</span><span class="o">]</span>                      <span class="o">=</span> <span class="s2">"16M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_allowed_packet"</span><span class="o">]</span>              <span class="o">=</span> <span class="s2">"64M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"thread_stack"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"192K"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"query_alloc_block_size"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">"16K"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"memlock"</span><span class="o">]</span>                         <span class="o">=</span> <span class="kp">false</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"transaction_isolation"</span><span class="o">]</span>           <span class="o">=</span> <span class="s2">"REPEATABLE-READ"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmp_table_size"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"64M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">"InnoDB"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_heap_table_size"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">"64M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"sort_buffer_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"8M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"join_buffer_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"8M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"thread_cache_size"</span><span class="o">]</span>               <span class="o">=</span> <span class="mi">16</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"back_log"</span><span class="o">]</span>                        <span class="o">=</span> <span class="mi">50</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_connections"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">30</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_connect_errors"</span><span class="o">]</span>              <span class="o">=</span> <span class="mi">9999999</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"table_cache"</span><span class="o">]</span>                     <span class="o">=</span> <span class="mi">8192</span>
+
+<span class="c1"># Query Cache Configuration</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"query_cache_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"64M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"query_cache_limit"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"2M"</span>
+
+<span class="c1"># Logging and Replication</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"sync_binlog"</span><span class="o">]</span>                     <span class="o">=</span> <span class="mi">1</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"slow_query_log"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"/var/log/mysql/mysql-slow.log"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"long_query_time"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">2</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"server_id"</span><span class="o">]</span>                       <span class="o">=</span> <span class="mi">1</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_do_db"</span><span class="o">]</span>                    <span class="o">=</span> <span class="o">[]</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"expire_logs_days"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">10</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_binlog_size"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"100M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_cache_size"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"1M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_bin"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"master-bin"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"relay_log"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"slave-relay-bin"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_slave_updates"</span><span class="o">]</span>               <span class="o">=</span> <span class="kp">false</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_warnings"</span><span class="o">]</span>                    <span class="o">=</span> <span class="kp">true</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_long_format"</span><span class="o">]</span>                 <span class="o">=</span> <span class="kp">false</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"bulk_insert_buffer_size"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"64M"</span>
+
+<span class="c1"># MyISAM Specific</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_recover"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"BACKUP"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_sort_buffer_size"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"128M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_max_sort_file_size"</span><span class="o">]</span>       <span class="o">=</span> <span class="s2">"10G"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_repair_threads"</span><span class="o">]</span>           <span class="o">=</span> <span class="mi">1</span>
+
+<span class="c1"># InnoDB Specific</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_innodb"</span><span class="o">]</span>                     <span class="o">=</span> <span class="kp">false</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_additional_mem_pool_size"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"32M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_buffer_pool_size"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"128M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_data_file_path"</span><span class="o">]</span>           <span class="o">=</span> <span class="s2">"ibdata1:10M:autoextend"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_file_per_table"</span><span class="o">]</span>           <span class="o">=</span> <span class="kp">true</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_data_home_dir"</span><span class="o">]</span>            <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_thread_concurrency"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">16</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_flush_log_at_trx_commit"</span><span class="o">]</span>  <span class="o">=</span> <span class="mi">1</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_fast_shutdown"</span><span class="o">]</span>            <span class="o">=</span> <span class="kp">false</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_log_buffer_size"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">"64M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_log_file_size"</span><span class="o">]</span>            <span class="o">=</span> <span class="s2">"5M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_log_files_in_group"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">2</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_max_dirty_pages_pct"</span><span class="o">]</span>      <span class="o">=</span> <span class="mi">80</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_flush_method"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">"O_DIRECT"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_lock_wait_timeout"</span><span class="o">]</span>        <span class="o">=</span> <span class="mi">120</span>
+
+<span class="c1"># Replication Settings</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"read_only"</span><span class="o">]</span>        <span class="o">=</span> <span class="kp">false</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"host"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"port"</span><span class="o">]</span>             <span class="o">=</span> <span class="mi">3306</span>
+
+<span class="c1"># XtraBackup Settings</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"configure"</span><span class="o">]</span>                       <span class="o">=</span> <span class="kp">false</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"backup"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"123-changeme"</span>
+
+<span class="c1"># XtraDB Cluster Settings</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"binlog_format"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"ROW"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_provider"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"/usr/lib64/libgalera_smm.so"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_address"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_slave_threads"</span><span class="o">]</span>            <span class="o">=</span> <span class="mi">2</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_name"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_sst_method"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"rsync"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_node_name"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_locks_unsafe_for_binlog"</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_autoinc_lock_mode"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">2</span>
+</pre>
+</div>
+
+
+<h2>Explicit my.cnf templating</h2>
+
+<p>In some situation it is preferable to explicitly define the attributes needed in a my.cnf file. This is enabled by adding categories to the <code>node[:percona][:conf]</code> attributes. All keys found in the <code>node[:percona][:conf]</code> map will represent categories in the my.cnf file. Each category contains a map of attributes that will be written to the my.cnf file for that category. See the example for more details.</p>
+
+<h3>Example:</h3>
+
+<div class="highlight">
+<pre><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"conf"</span><span class="o">][</span><span class="s2">"mysqld"</span><span class="o">][</span><span class="s2">"slow_query_log_file"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"/var/lib/mysql/data/mysql-slow.log"</span>
+</pre>
+</div>
+
+
+<p>This configuration would write the mysqld category to the my.cnf file and have an attribute <code>slow_query_log_file</code> whose value would be <code>/var/lib/mysql/data/mysql-slow.log</code>.</p>
+
+<h3>Example output (my.cnf):</h3>
+
+<div class="highlight">
+<pre><span class="k">[mysqld]</span>
+<span class="na">slow_query_log_file</span> <span class="o">=</span> <span class="s">/var/lib/mysql/data/mysql-slow.log</span>
+</pre>
+</div>
+
+
+<h2>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol><h2>Contributors</h2>
+
+<p>Many thanks go to the following who have contributed to making this cookbook even better:</p>
+
+<ul>
+<li>
+<strong><a href="https://github.com/jagcrete">@jagcrete</a></strong>
+
+<ul>
+<li>configurable keyserver</li>
+<li>encrypted password data bag</li>
+<li>custom my.cnf file</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/pwelch">@pwelch</a></strong>
+
+<ul>
+<li>ensure cookbook dependencies are loaded</li>
+<li>
+<a href="http://acrmp.github.com/foodcritic/">Foodcritic</a> compliance updates</li>
+<li>various minor patches and updates</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/masv">@masv</a></strong>
+
+<ul>
+<li>compatibility updates for 5.5</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/stottsan">@stottsan</a></strong>
+
+<ul>
+<li>config cleanup to prevent service restarts on chef run</li>
+</ul>
+</li>
+</ul><h2>License</h2>
+
+<p>Author:: Phil Cohen (<a href="mailto:github@phlippers.net">github@phlippers.net</a>) <a href="http://coderwall.com/phlipper"><img src="http://api.coderwall.com/phlipper/endorsecount.png" alt="endorse"></a></p>
+
+<p>Copyright:: 2011-2012, Phil Cohen</p>
+
+<p>Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at</p>
+
+<pre><code>http://www.apache.org/licenses/LICENSE-2.0
+</code></pre>
+
+<p>Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</p>
+      </section>
+      <footer>
+        <p>Project maintained by <a href="https://github.com/phlipper">phlipper</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="http://twitter.com/#!/michigangraham">mattgraham</a></small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-10172882-2");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+  </body>
+</html>
