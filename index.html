@@ -265,6 +265,10 @@ recipes should run on these platforms without error:</p>
 <span class="na">slow_query_log_file</span> <span class="o">=</span> <span class="s">/var/lib/mysql/data/mysql-slow.log</span>
 </pre></div>
 
+<h2>Dynamically setting the bind address</h2>
+
+<p>There's a special attribute <code>node['percona']['server']['bind_to']</code> that allows you to dynamically set the bind address. This attribute accepts the values <code>'public_ip'</code>, <code>'private_ip'</code>, <code>'loopback'</code>, or and interface name like <code>'eth0'</code>. Based on this, the recipe will find a corresponding ipv4 address, and override the <code>node['percona']['server']['bind_address']</code> attribute.</p>
+
 <h2>Goals</h2>
 
 <p>In no particular order:</p>
@@ -342,6 +346,7 @@ recipes should run on these platforms without error:</p>
 
 <ul>
 <li>auto-generate secure passwords by default</li>
+<li>add ability to dynamically set the bind address</li>
 </ul>
 </li>
 <li>
