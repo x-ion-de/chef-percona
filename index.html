@@ -46,15 +46,11 @@
 <h3>Supported Platforms</h3>
 
 <p>The following platforms are supported by this cookbook, meaning that the
-recipes run on these platforms without error:</p>
+recipes should run on these platforms without error:</p>
 
 <ul>
 <li>Ubuntu</li>
 <li>Debian</li>
-</ul><p>Untested Yum package manager support is provided for the following
-platforms:</p>
-
-<ul>
 <li>Amazon Linux AMI</li>
 <li>CentOS</li>
 <li>Red Hat</li>
@@ -86,6 +82,8 @@ platforms:</p>
 <code>percona::toolkit</code> - Installs the Percona Toolkit software</li>
 <li>
 <code>percona::cluster</code> - Installs the Percona XtraDB Cluster server components</li>
+<li>
+<code>percona::configure_server</code> - Used internally to manage the server configuration.</li>
 <li>
 <code>percona::replication</code> - Used internally to grant permissions for replication.</li>
 <li>
@@ -130,7 +128,20 @@ platforms:</p>
 
 <h2>Attributes</h2>
 
-<div class="highlight"><pre><span class="c1"># Cookbook Settings</span>
+<div class="highlight"><pre><span class="k">case</span> <span class="n">node</span><span class="o">[</span><span class="s2">"platform_family"</span><span class="o">]</span>
+<span class="k">when</span> <span class="s2">"debian"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.sock"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>        <span class="o">=</span> <span class="s2">"InnoDB"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"/etc/mysql/conf.d/"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.pid"</span>
+<span class="k">when</span> <span class="s2">"rhel"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/var/lib/mysql/mysql.sock"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>        <span class="o">=</span> <span class="s2">"innodb"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">""</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"/var/lib/mysql/mysqld.pid"</span>
+<span class="k">end</span>
+
+<span class="c1"># Cookbook Settings</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"keyserver"</span><span class="o">]</span>                                 <span class="o">=</span> <span class="s2">"keys.gnupg.net"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"encrypted_data_bag"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"passwords"</span>
 
@@ -138,17 +149,14 @@ platforms:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"role"</span><span class="o">]</span>                            <span class="o">=</span> <span class="s2">"standalone"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"mysql"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"datadir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/lib/mysql"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                      <span class="o">=</span> <span class="s2">"/etc/mysql/conf.d/"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmpdir"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/tmp"</span>
 <span class="n">set_unless</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"root_password"</span><span class="o">]</span>                <span class="o">=</span> <span class="n">secure_password</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_username"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"debian-sys-maint"</span>
 <span class="n">set_unless</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_password"</span><span class="o">]</span>              <span class="o">=</span> <span class="n">secure_password</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.sock"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"nice"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">0</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"open_files_limit"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">16384</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"hostname"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"localhost"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"basedir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/usr"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.pid"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"port"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">3306</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"language"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/usr/share/mysql/english"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_external_locking"</span><span class="o">]</span>           <span class="o">=</span> <span class="kp">true</span>
@@ -164,7 +172,6 @@ platforms:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"memlock"</span><span class="o">]</span>                         <span class="o">=</span> <span class="kp">false</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"transaction_isolation"</span><span class="o">]</span>           <span class="o">=</span> <span class="s2">"REPEATABLE-READ"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmp_table_size"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"64M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">"InnoDB"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_heap_table_size"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">"64M"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"sort_buffer_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"8M"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"join_buffer_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"8M"</span>
@@ -227,7 +234,7 @@ platforms:</p>
 <span class="c1"># XtraBackup Settings</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"configure"</span><span class="o">]</span>                       <span class="o">=</span> <span class="kp">false</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"backup"</span>
-<span class="n">set_unless</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>                     <span class="o">=</span> <span class="n">secure_passowrd</span>
+<span class="n">set_unless</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>                     <span class="o">=</span> <span class="n">secure_password</span>
 
 <span class="c1"># XtraDB Cluster Settings</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"binlog_format"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"ROW"</span>
@@ -342,6 +349,13 @@ platforms:</p>
 
 <ul>
 <li>add <code>yum</code> support for <code>centos</code>, <code>amazon</code>, <code>scientific</code>, <code>fedora</code>, and <code>redhat</code> distributions</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/psi">@psi</a></strong>
+
+<ul>
+<li>fixes required for RedHat platforms</li>
 </ul>
 </li>
 </ul><h2>License</h2>
