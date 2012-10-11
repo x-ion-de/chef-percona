@@ -142,6 +142,7 @@ recipes should run on these platforms without error:</p>
 <span class="k">end</span>
 
 <span class="c1"># Cookbook Settings</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"main_config_file"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/etc/my.cnf"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"keyserver"</span><span class="o">]</span>                                 <span class="o">=</span> <span class="s2">"keys.gnupg.net"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"encrypted_data_bag"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"passwords"</span>
 
@@ -347,6 +348,7 @@ recipes should run on these platforms without error:</p>
 <ul>
 <li>auto-generate secure passwords by default</li>
 <li>add ability to dynamically set the bind address</li>
+<li>add support for <code>main_config_file</code> attribute</li>
 </ul>
 </li>
 <li>
