@@ -27,8 +27,7 @@
         </ul>
       </header>
       <section>
-        <h1>chef-percona  <a href="http://travis-ci.org/phlipper/chef-percona"><img src="https://secure.travis-ci.org/phlipper/chef-percona.png" alt="Build Status"></a> <a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a>
-</h1>
+        <p><a href="http://travis-ci.org/phlipper/chef-percona"><img src="https://secure.travis-ci.org/phlipper/chef-percona.png" alt="Build Status"></a> <a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
 
 <h2>Description</h2>
 
@@ -65,7 +64,11 @@ recipes should run on these platforms without error:</p>
 <a href="http://community.opscode.com/cookbooks/openssl">openssl</a> Opscode Cookbook</li>
 <li>
 <a href="http://community.opscode.com/cookbooks/yum">yum</a> Opscode LWRP Cookbook</li>
-</ul><h2>Recipes</h2>
+</ul><h3>Chef</h3>
+
+<p>It is recommended to use a version of Chef <code>&gt;= 10.16.4</code> as that is the target of my usage and testing, though this should work with any version <code>&gt;= 10.0.0</code>.</p>
+
+<h2>Recipes</h2>
 
 <ul>
 <li>
@@ -151,9 +154,7 @@ recipes should run on these platforms without error:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"mysql"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"datadir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/lib/mysql"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmpdir"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/tmp"</span>
-<span class="n">set_unless</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"root_password"</span><span class="o">]</span>                <span class="o">=</span> <span class="n">secure_password</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_username"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"debian-sys-maint"</span>
-<span class="n">set_unless</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_password"</span><span class="o">]</span>              <span class="o">=</span> <span class="n">secure_password</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"nice"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">0</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"open_files_limit"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">16384</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"hostname"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"localhost"</span>
@@ -164,6 +165,10 @@ recipes should run on these platforms without error:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"net_read_timeout"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">120</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"old_passwords"</span><span class="o">]</span>                   <span class="o">=</span> <span class="mi">1</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"bind_address"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"127.0.0.1"</span>
+<span class="sx">%w[debian_password root_password]</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
+  <span class="k">next</span> <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="n">attribute</span><span class="o">]</span><span class="p">)</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="n">attribute</span><span class="o">]</span>                       <span class="o">=</span> <span class="n">secure_password</span>
+<span class="k">end</span>
 
 <span class="c1"># Fine Tuning</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"key_buffer"</span><span class="o">]</span>                      <span class="o">=</span> <span class="s2">"16M"</span>
@@ -235,7 +240,9 @@ recipes should run on these platforms without error:</p>
 <span class="c1"># XtraBackup Settings</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"configure"</span><span class="o">]</span>                       <span class="o">=</span> <span class="kp">false</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"backup"</span>
-<span class="n">set_unless</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>                     <span class="o">=</span> <span class="n">secure_password</span>
+<span class="k">unless</span> <span class="n">defined?</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span><span class="p">)</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>                      <span class="o">=</span> <span class="n">secure_password</span>
+<span class="k">end</span>
 
 <span class="c1"># XtraDB Cluster Settings</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"binlog_format"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"ROW"</span>
@@ -370,6 +377,22 @@ recipes should run on these platforms without error:</p>
 
 <ul>
 <li>improvements for master/slave replication setup</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/bensomers">@bensomers</a></strong>
+
+<ul>
+<li>minor fixes to <code>replication.sql</code>
+</li>
+<li>fix a very dangerous bug around binlog-do-db setting for slave servers</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/tdg5">@tdg5</a></strong>
+
+<ul>
+<li>avoid use of <code>set_unless</code> for chef-solo, workaround for CHEF-2945</li>
 </ul>
 </li>
 </ul><h2>License</h2>
