@@ -193,7 +193,8 @@ recipes should run on these platforms without error:</p>
 
 <span class="c1"># Logging and Replication</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"sync_binlog"</span><span class="o">]</span>                     <span class="o">=</span> <span class="mi">1</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"slow_query_log"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"/var/log/mysql/mysql-slow.log"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"slow_query_log"</span><span class="o">]</span>                  <span class="o">=</span> <span class="mi">1</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"slow_query_log_file"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">"/var/log/mysql/mysql-slow.log"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"long_query_time"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">2</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"server_id"</span><span class="o">]</span>                       <span class="o">=</span> <span class="mi">1</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_do_db"</span><span class="o">]</span>                    <span class="o">=</span> <span class="o">[]</span>
@@ -386,6 +387,7 @@ recipes should run on these platforms without error:</p>
 <li>minor fixes to <code>replication.sql</code>
 </li>
 <li>fix a very dangerous bug around binlog-do-db setting for slave servers</li>
+<li>fix slow query log setting for 5.5</li>
 </ul>
 </li>
 <li>
