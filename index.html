@@ -27,7 +27,8 @@
         </ul>
       </header>
       <section>
-        <p><a href="http://travis-ci.org/phlipper/chef-percona"><img src="https://secure.travis-ci.org/phlipper/chef-percona.png" alt="Build Status"></a> <a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
+        <h1>chef-percona  <a href="http://travis-ci.org/phlipper/chef-percona"><img src="https://secure.travis-ci.org/phlipper/chef-percona.png" alt="Build Status"></a> <a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a>
+</h1>
 
 <h2>Description</h2>
 
@@ -97,11 +98,11 @@ recipes should run on these platforms without error:</p>
 
 <h3>Encrypted Passwords</h3>
 
-<p>This cookbook supports <a href="http://wiki.opscode.com/display/chef/Encrypted+Data+Bags">Encrypted Data Bags</a>.</p>
+<p>This cookbook requires <a href="http://wiki.opscode.com/display/chef/Encrypted+Data+Bags">Encrypted Data Bags</a>. If you forget to use them or do not use a node attribute to overwrite them empty passwords will be used.</p>
 
 <p>To use encrypted passwords, you must create an encrypted data bag. This cookbook assumes a data bag named <code>passwords</code>, but you can override the name using the <code>node[:percona][:encrypted_data_bag]</code> attribute.</p>
 
-<p>This cookbook expects a <code>mysql</code> item  and a <code>system</code> item.</p>
+<p>This cookbook expects a <code>mysql</code> item  and a <code>system</code> item. Please refer to the official documentation on how to get this setup. It actually uses a MySQL example so it can be mostly copied. Ensure you cover the data bag items as described below.</p>
 
 <h4>mysql item</h4>
 
@@ -378,6 +379,7 @@ recipes should run on these platforms without error:</p>
 
 <ul>
 <li>improvements for master/slave replication setup</li>
+<li>updates and clarifications to the README</li>
 </ul>
 </li>
 <li>
