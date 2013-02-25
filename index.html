@@ -40,6 +40,8 @@
 <a href="http://www.percona.com/software/percona-toolkit/">Percona Toolkit</a> advanced command-line tools</li>
 <li>
 <a href="http://www.percona.com/software/percona-xtradb-cluster/">XtraDB Cluster</a> high availability and high scalability solution for MySQL</li>
+<li>
+<a href="http://www.percona.com/software/percona-monitoring-plugins">Percona Monitoring Plugins</a> various Nagios plugins for monitoring MySQL</li>
 </ul><h2>Requirements</h2>
 
 <h3>Supported Platforms</h3>
@@ -91,6 +93,8 @@ recipes should run on these platforms without error:</p>
 <code>percona::replication</code> - Used internally to grant permissions for replication.</li>
 <li>
 <code>percona::access_grants</code> - Used internally to grant permissions for recipes.</li>
+<li>
+<code>percona::monitoring</code> - Installs Percona monitoring plugins for Nagios</li>
 </ul><h2>Usage</h2>
 
 <p>This cookbook installs the Percona MySQL components if not present, and pulls updates if they are installed on the system.</p>
@@ -257,6 +261,14 @@ recipes should run on these platforms without error:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_autoinc_lock_mode"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
 
+<h3>Monitoring.rb</h3>
+
+<div class="highlight"><pre><span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_url'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"http://www.percona.com/downloads/percona-monitoring-plugins/"</span>
+<span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_version'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"1.0.2"</span>
+<span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_sha'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"da84cfe89637292da15ddb1e66f67ad9703fa21392d8d49e664ad08f7aa45585"</span>
+<span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_path'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"/opt/pmp"</span>
+</pre></div>
+
 <h2>Explicit my.cnf templating</h2>
 
 <p>In some situation it is preferable to explicitly define the attributes needed in a <code>my.cnf</code> file. This is enabled by adding categories to the <code>node[:percona][:conf]</code> attributes. All keys found in the <code>node[:percona][:conf]</code> map will represent categories in the <code>my.cnf</code> file. Each category contains a map of attributes that will be written to the <code>my.cnf</code> file for that category. See the example for more details.</p>
@@ -412,11 +424,25 @@ recipes should run on these platforms without error:</p>
 <li>pin the percona apt repo with high priority</li>
 </ul>
 </li>
+<li>
+<strong><a href="https://github.com/ckuttruff">@ckuttruff</a></strong>
+
+<ul>
+<li>improve security on debian-based systems by changing config file permissions</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/srodrig0209">@srodrig0209</a></strong>
+
+<ul>
+<li>add the <code>monitoring</code> recipe</li>
+</ul>
+</li>
 </ul><h2>License</h2>
 
 <p>Author:: Phil Cohen (<a href="mailto:github@phlippers.net">github@phlippers.net</a>) <a href="http://coderwall.com/phlipper"><img src="http://api.coderwall.com/phlipper/endorsecount.png" alt="endorse"></a></p>
 
-<p>Copyright:: 2011-2012, Phil Cohen</p>
+<p>Copyright:: 2011-2013, Phil Cohen</p>
 
 <p>Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
