@@ -135,7 +135,10 @@ recipes should run on these platforms without error:</p>
 
 <h2>Attributes</h2>
 
-<div class="highlight"><pre><span class="k">case</span> <span class="n">node</span><span class="o">[</span><span class="s2">"platform_family"</span><span class="o">]</span>
+<div class="highlight"><pre><span class="c1"># Always restart percona on configuration changes</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"auto_restart"</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="k">case</span> <span class="n">node</span><span class="o">[</span><span class="s2">"platform_family"</span><span class="o">]</span>
 <span class="k">when</span> <span class="s2">"debian"</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.sock"</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>        <span class="o">=</span> <span class="s2">"InnoDB"</span>
@@ -391,6 +394,7 @@ recipes should run on these platforms without error:</p>
 <ul>
 <li>improvements for master/slave replication setup</li>
 <li>updates and clarifications to the README</li>
+<li>add attribute to control server restart on config changes</li>
 </ul>
 </li>
 <li>
