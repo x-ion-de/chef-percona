@@ -18,7 +18,7 @@
     <div class="wrapper">
       <header>
         <h1>chef-percona</h1>
-        <p>Chef cookbooks for Percona MySQL components</p>
+        <p>Chef cookbook for Percona MySQL components</p>
         <p class="view"><a href="https://github.com/phlipper/chef-percona">View the Project on GitHub <small>phlipper/chef-percona</small></a></p>
         <ul>
           <li><a href="https://github.com/phlipper/chef-percona/zipball/master">Download <strong>ZIP File</strong></a></li>
@@ -27,11 +27,21 @@
         </ul>
       </header>
       <section>
-        <p><a href="http://travis-ci.org/phlipper/chef-percona"><img src="https://secure.travis-ci.org/phlipper/chef-percona.png" alt="Build Status"></a> <a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/badge.png" alt="Code Climate"></a></p>
+        <h1>
+<a name="chef-percona" class="anchor" href="#chef-percona"><span class="octicon octicon-link"></span></a>chef-percona</h1>
 
-<h2>Description</h2>
+<p><a href="https://travis-ci.org/phlipper/chef-percona"><img src="http://img.shields.io/travis-ci/phlipper/chef-percona.png" alt="Build Status"></a>
+<a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/github/phlipper/chef-percona.png" alt="Code Climate"></a></p>
 
-<p>Installs the <a href="http://www.percona.com/software/percona-server">Percona MySQL</a> client and/or server components. Optionally installs:</p>
+<h2>
+<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h2>
+
+<p>Installs the <a href="http://www.percona.com/software/percona-server">Percona
+MySQL</a> client and/or
+server components. (We are attempting to leverage the official Opscode
+MySQL cookbook as much as possible.)</p>
+
+<p>Optionally installs:</p>
 
 <ul>
 <li>
@@ -39,15 +49,26 @@
 <li>
 <a href="http://www.percona.com/software/percona-toolkit/">Percona Toolkit</a> advanced command-line tools</li>
 <li>
-<a href="http://www.percona.com/software/percona-xtradb-cluster/">XtraDB Cluster</a> high availability and high scalability solution for MySQL</li>
+<a href="http://www.percona.com/software/percona-xtradb-cluster/">XtraDB
+Cluster</a> high
+availability and high scalability solution for MySQL.</li>
 <li>
 <a href="http://www.percona.com/software/percona-monitoring-plugins">Percona Monitoring Plugins</a> various Nagios plugins for monitoring MySQL</li>
-</ul><h2>Requirements</h2>
+</ul><h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
-<h3>Supported Platforms</h3>
+<h3>
+<a name="supported-platforms" class="anchor" href="#supported-platforms"><span class="octicon octicon-link"></span></a>Supported Platforms</h3>
 
-<p>The following platforms are supported by this cookbook, meaning that the
-recipes should run on these platforms without error:</p>
+<p>We provide an expanding set of tests against the following 64-bit platforms:</p>
+
+<ul>
+<li>Ubuntu Precise 12.04 LTS</li>
+<li>Ubuntu Trusty 14.04 LTS</li>
+<li>CentOS 6.5</li>
+</ul><p>Although we don't test against all possible platform verions, we expect
+the following to be supported. Please submit an issue if this is not the
+cause, and we'll make reasonable efforts to improve support:</p>
 
 <ul>
 <li>Ubuntu</li>
@@ -57,7 +78,8 @@ recipes should run on these platforms without error:</p>
 <li>Red Hat</li>
 <li>Scientific</li>
 <li>Fedora</li>
-</ul><h3>Cookbooks</h3>
+</ul><h3>
+<a name="cookbooks" class="anchor" href="#cookbooks"><span class="octicon octicon-link"></span></a>Cookbooks</h3>
 
 <ul>
 <li>
@@ -66,11 +88,15 @@ recipes should run on these platforms without error:</p>
 <a href="http://community.opscode.com/cookbooks/openssl">openssl</a> Opscode Cookbook</li>
 <li>
 <a href="http://community.opscode.com/cookbooks/yum">yum</a> Opscode LWRP Cookbook</li>
-</ul><h3>Chef</h3>
+</ul><h3>
+<a name="chef" class="anchor" href="#chef"><span class="octicon octicon-link"></span></a>Chef</h3>
 
-<p>It is recommended to use a version of Chef <code>&gt;= 10.16.4</code> as that is the target of my usage and testing, though this should work with any version <code>&gt;= 10.0.0</code>.</p>
+<p>We aim to test the most recent releases of Chef 10 and 11. You can view
+the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">currently tested versions</a>.
+(Feel free to submit a pull request if they're out of date!)</p>
 
-<h2>Recipes</h2>
+<h2>
+<a name="recipes" class="anchor" href="#recipes"><span class="octicon octicon-link"></span></a>Recipes</h2>
 
 <ul>
 <li>
@@ -95,11 +121,13 @@ recipes should run on these platforms without error:</p>
 <code>percona::access_grants</code> - Used internally to grant permissions for recipes.</li>
 <li>
 <code>percona::monitoring</code> - Installs Percona monitoring plugins for Nagios</li>
-</ul><h2>Usage</h2>
+</ul><h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>This cookbook installs the Percona MySQL components if not present, and pulls updates if they are installed on the system.</p>
 
-<h3>Encrypted Passwords</h3>
+<h3>
+<a name="encrypted-passwords" class="anchor" href="#encrypted-passwords"><span class="octicon octicon-link"></span></a>Encrypted Passwords</h3>
 
 <p>This cookbook requires <a href="http://wiki.opscode.com/display/chef/Encrypted+Data+Bags">Encrypted Data Bags</a>. If you forget to use them or do not use a node attribute to overwrite them empty passwords will be used.</p>
 
@@ -107,17 +135,24 @@ recipes should run on these platforms without error:</p>
 
 <p>This cookbook expects a <code>mysql</code> item  and a <code>system</code> item. Please refer to the official documentation on how to get this setup. It actually uses a MySQL example so it can be mostly copied. Ensure you cover the data bag items as described below.</p>
 
-<h4>mysql item</h4>
+<h3>
+<a name="skip-passwords" class="anchor" href="#skip-passwords"><span class="octicon octicon-link"></span></a>Skip passwords</h3>
+
+<p>Set the <code>["percona"]["skip_passwords"]</code> attribute to skip setting up passwords. Removes the need for the encrypted data bag if using chef-solo. Is useful for setting up development and ci environments where you just want to use the root user with no password. If you are doing this you may want to set <code>[:percona][:server][:debian_username]</code> to be <code>"root"</code> also.</p>
+
+<h4>
+<a name="mysql-item" class="anchor" href="#mysql-item"><span class="octicon octicon-link"></span></a>mysql item</h4>
 
 <p>The mysql item should contain entries for root, backup, and replication. If no value is found, the cookbook will fall back to the default non-encrypted password.</p>
 
-<h4>system item</h4>
+<h4>
+<a name="system-item" class="anchor" href="#system-item"><span class="octicon octicon-link"></span></a>system item</h4>
 
 <p>The "system" item should contain an entry for the debian system user as specified in the <code>node[:percona][:server][:debian_username]</code> attribute. If no such entry is found, the cookbook will fall back to the default non-encrypted password.</p>
 
 <p>Example: "passwords" data bag - this example assumes that <code>node[:percona][:server][:debian_username] = spud</code></p>
 
-<div class="highlight"><pre><span class="p">{</span>
+<div class="highlight highlight-javascript"><pre><span class="p">{</span>
   <span class="s2">"mysql"</span> <span class="o">:</span>
   <span class="p">{</span>
     <span class="s2">"root"</span> <span class="o">:</span> <span class="s2">"trywgFA6R70NO28PNhMpGhEvKBZuxouemnbnAUQsUyo=\n"</span>
@@ -133,9 +168,12 @@ recipes should run on these platforms without error:</p>
 
 <p>Above shows the encrypted password in the data bag. Check out the <code>encrypted_data_bag_secret</code> setting in <code>knife.rb</code> to setup your data bag secret during bootstrapping.</p>
 
-<h2>Attributes</h2>
+<h2>
+<a name="attributes" class="anchor" href="#attributes"><span class="octicon octicon-link"></span></a>Attributes</h2>
 
-<div class="highlight"><pre><span class="c1"># Always restart percona on configuration changes</span>
+<div class="highlight highlight-ruby"><pre><span class="n">version</span> <span class="o">=</span> <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"version"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"5.6"</span>
+
+<span class="c1"># Always restart percona on configuration changes</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"auto_restart"</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
 
 <span class="k">case</span> <span class="n">node</span><span class="o">[</span><span class="s2">"platform_family"</span><span class="o">]</span>
@@ -144,17 +182,24 @@ recipes should run on these platforms without error:</p>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>        <span class="o">=</span> <span class="s2">"InnoDB"</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"/etc/mysql/conf.d/"</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.pid"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"package"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"percona-server-server-</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">when</span> <span class="s2">"rhel"</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/var/lib/mysql/mysql.sock"</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>        <span class="o">=</span> <span class="s2">"innodb"</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">""</span>
   <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"/var/lib/mysql/mysqld.pid"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"package"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"Percona-Server-server-</span><span class="si">#{</span><span class="n">version</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"shared_pkg"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"Percona-Server-shared-</span><span class="si">#{</span><span class="n">version</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
 <span class="k">end</span>
 
 <span class="c1"># Cookbook Settings</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"main_config_file"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/etc/my.cnf"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"keyserver"</span><span class="o">]</span>                                 <span class="o">=</span> <span class="s2">"keys.gnupg.net"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"encrypted_data_bag"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"passwords"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"use_percona_repos"</span><span class="o">]</span>                         <span class="o">=</span> <span class="kp">true</span>
+
+<span class="c1"># Start percona server on boot</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"enable"</span><span class="o">]</span>                          <span class="o">=</span> <span class="kp">true</span>
 
 <span class="c1"># Basic Settings</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"role"</span><span class="o">]</span>                            <span class="o">=</span> <span class="s2">"standalone"</span>
@@ -167,10 +212,14 @@ recipes should run on these platforms without error:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"hostname"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"localhost"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"basedir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/usr"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"port"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">3306</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"character_set"</span><span class="o">]</span>                   <span class="o">=</span> <span class="s2">"utf8"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"collation"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"utf8_unicode_ci"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"language"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/usr/share/mysql/english"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_name_resolve"</span><span class="o">]</span>               <span class="o">=</span> <span class="kp">false</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_external_locking"</span><span class="o">]</span>           <span class="o">=</span> <span class="kp">true</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"net_read_timeout"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">120</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"old_passwords"</span><span class="o">]</span>                   <span class="o">=</span> <span class="mi">1</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"connect_timeout"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">10</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"old_passwords"</span><span class="o">]</span>                   <span class="o">=</span> <span class="mi">0</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"bind_address"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"127.0.0.1"</span>
 <span class="sx">%w[debian_password root_password]</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
   <span class="k">next</span> <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="n">attribute</span><span class="o">]</span><span class="p">)</span>
@@ -193,6 +242,7 @@ recipes should run on these platforms without error:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_connections"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">30</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_connect_errors"</span><span class="o">]</span>              <span class="o">=</span> <span class="mi">9999999</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"table_cache"</span><span class="o">]</span>                     <span class="o">=</span> <span class="mi">8192</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"group_concat_max_len"</span><span class="o">]</span>            <span class="o">=</span> <span class="mi">4096</span>
 
 <span class="c1"># Query Cache Configuration</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"query_cache_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"64M"</span>
@@ -208,6 +258,7 @@ recipes should run on these platforms without error:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"expire_logs_days"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">10</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_binlog_size"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"100M"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_cache_size"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"1M"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_format"</span><span class="o">]</span>                   <span class="o">=</span> <span class="s2">"MIXED"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_bin"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"master-bin"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"relay_log"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"slave-relay-bin"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_slave_updates"</span><span class="o">]</span>               <span class="o">=</span> <span class="kp">false</span>
@@ -253,6 +304,7 @@ recipes should run on these platforms without error:</p>
 <span class="k">end</span>
 
 <span class="c1"># XtraDB Cluster Settings</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"package"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"percona-xtradb-cluster-55"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"binlog_format"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"ROW"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_provider"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"/usr/lib64/libgalera_smm.so"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_address"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">""</span>
@@ -264,36 +316,40 @@ recipes should run on these platforms without error:</p>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_autoinc_lock_mode"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
 
-<h3>Monitoring.rb</h3>
+<h3>
+<a name="monitoringrb" class="anchor" href="#monitoringrb"><span class="octicon octicon-link"></span></a>Monitoring.rb</h3>
 
-<div class="highlight"><pre><span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_url'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"http://www.percona.com/downloads/percona-monitoring-plugins/"</span>
-<span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_version'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"1.0.2"</span>
-<span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_sha'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"da84cfe89637292da15ddb1e66f67ad9703fa21392d8d49e664ad08f7aa45585"</span>
-<span class="n">default</span><span class="o">[</span><span class="s1">'percona'</span><span class="o">][</span><span class="s1">'plugins_path'</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"/opt/pmp"</span>
+<div class="highlight highlight-ruby"><pre><span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"plugins_version"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"1.1.3"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"plugins_packages"</span><span class="o">]</span> <span class="o">=</span> <span class="sx">%w[percona-nagios-plugins percona-zabbix-templates percona-cacti-templates]</span>
 </pre></div>
 
-<h2>Explicit my.cnf templating</h2>
+<h2>
+<a name="explicit-mycnf-templating" class="anchor" href="#explicit-mycnf-templating"><span class="octicon octicon-link"></span></a>Explicit my.cnf templating</h2>
 
 <p>In some situation it is preferable to explicitly define the attributes needed in a <code>my.cnf</code> file. This is enabled by adding categories to the <code>node[:percona][:conf]</code> attributes. All keys found in the <code>node[:percona][:conf]</code> map will represent categories in the <code>my.cnf</code> file. Each category contains a map of attributes that will be written to the <code>my.cnf</code> file for that category. See the example for more details.</p>
 
-<h3>Example:</h3>
+<h3>
+<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example:</h3>
 
-<div class="highlight"><pre><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"conf"</span><span class="o">][</span><span class="s2">"mysqld"</span><span class="o">][</span><span class="s2">"slow_query_log_file"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"/var/lib/mysql/data/mysql-slow.log"</span>
+<div class="highlight highlight-ruby"><pre><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"conf"</span><span class="o">][</span><span class="s2">"mysqld"</span><span class="o">][</span><span class="s2">"slow_query_log_file"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"/var/lib/mysql/data/mysql-slow.log"</span>
 </pre></div>
 
 <p>This configuration would write the <code>mysqld</code> category to the <code>my.cnf</code> file and have an attribute <code>slow_query_log_file</code> whose value would be <code>/var/lib/mysql/data/mysql-slow.log</code>.</p>
 
-<h3>Example output (my.cnf):</h3>
+<h3>
+<a name="example-output-mycnf" class="anchor" href="#example-output-mycnf"><span class="octicon octicon-link"></span></a>Example output (my.cnf):</h3>
 
-<div class="highlight"><pre><span class="k">[mysqld]</span>
+<div class="highlight highlight-ini"><pre><span class="k">[mysqld]</span>
 <span class="na">slow_query_log_file</span> <span class="o">=</span> <span class="s">/var/lib/mysql/data/mysql-slow.log</span>
 </pre></div>
 
-<h2>Dynamically setting the bind address</h2>
+<h2>
+<a name="dynamically-setting-the-bind-address" class="anchor" href="#dynamically-setting-the-bind-address"><span class="octicon octicon-link"></span></a>Dynamically setting the bind address</h2>
 
-<p>There's a special attribute <code>node['percona']['server']['bind_to']</code> that allows you to dynamically set the bind address. This attribute accepts the values <code>'public_ip'</code>, <code>'private_ip'</code>, <code>'loopback'</code>, or and interface name like <code>'eth0'</code>. Based on this, the recipe will find a corresponding ipv4 address, and override the <code>node['percona']['server']['bind_address']</code> attribute.</p>
+<p>There's a special attribute <code>node["percona"]["server"]["bind_to"]</code> that allows you to dynamically set the bind address. This attribute accepts the values <code>"public_ip"</code>, <code>"private_ip"</code>, <code>"loopback"</code>, or and interface name like <code>"eth0"</code>. Based on this, the recipe will find a corresponding ipv4 address, and override the <code>node["percona"]["server"]["bind_address"]</code> attribute.</p>
 
-<h2>Goals</h2>
+<h2>
+<a name="goals" class="anchor" href="#goals"><span class="octicon octicon-link"></span></a>Goals</h2>
 
 <p>In no particular order:</p>
 
@@ -305,6 +361,7 @@ recipes should run on these platforms without error:</p>
 <li>Support for Chef Server</li>
 </ul>
 </li>
+<li>Leverage to official Opscode MySQL cookbook as much as possible.</li>
 <li>Support the following common database infrastructures:
 
 <ul>
@@ -313,13 +370,15 @@ recipes should run on these platforms without error:</p>
 <li>Multi-master cluster replication</li>
 </ul>
 </li>
-<li>Support the most common Chef runtime environments</li>
+<li>Support the most recent Chef 10 &amp; 11 runtime environments</li>
 <li>Be the easiest way to setup a MySQL distribution through Chef</li>
-</ul><h2>TODO</h2>
+</ul><h2>
+<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
 
 <ul>
 <li>Fully support all of the standard Chef-supported distributions</li>
-</ul><h2>Contributing</h2>
+</ul><h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <ol>
 <li>Fork it</li>
@@ -327,7 +386,8 @@ recipes should run on these platforms without error:</p>
 <li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
 <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
 <li>Create new Pull Request</li>
-</ol><h2>Contributors</h2>
+</ol><h2>
+<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
 <p>Many thanks go to the following <a href="https://github.com/phlipper/chef-percona/graphs/contributors">contributors</a> who have helped to make this cookbook even better:</p>
 
@@ -434,6 +494,7 @@ recipes should run on these platforms without error:</p>
 <ul>
 <li>improve security on debian-based systems by changing config file permissions</li>
 <li>don't pass mysql root password in plaintext commands</li>
+<li>fix issue with -p flag when setting initial password</li>
 </ul>
 </li>
 <li>
@@ -463,26 +524,188 @@ recipes should run on these platforms without error:</p>
 <ul>
 <li>
 <em>(honorable mention)</em> fix incorrect root password reference</li>
+<li>fix typo in attribute for server username</li>
 </ul>
 </li>
-</ul><h2>License</h2>
+<li>
+<strong><a href="https://github.com/chrisroberts">@chrisroberts</a></strong>
 
-<p>Author:: Phil Cohen (<a href="mailto:github@phlippers.net">github@phlippers.net</a>) <a href="http://coderwall.com/phlipper"><img src="http://api.coderwall.com/phlipper/endorsecount.png" alt="endorse"></a></p>
+<ul>
+<li>
+<em>(honorable mention)</em> fix issue with -p flag when setting initial password</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/aaronjensen">@aaronjensen</a></strong>
 
-<p>Copyright:: 2011-2013, Phil Cohen</p>
+<ul>
+<li>allow server to not be started on startup</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/pioneerit">@pioneerit</a></strong>
 
-<p>Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at</p>
+<ul>
+<li>add sections to <code>.my.cnf</code> for <code>mysqladmin</code> and <code>mysqldump</code>
+</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/AndreyChernyh">@AndreyChernyh</a></strong>
 
-<pre><code>http://www.apache.org/licenses/LICENSE-2.0
-</code></pre>
+<ul>
+<li>use resources helper to support newer chef versions</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/avit">@avit</a></strong>
 
-<p>Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.</p>
+<ul>
+<li>add default utf8 character set option</li>
+<li>cleanup replication support</li>
+<li>remove dependency on opscode/mysql cookbook</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/alexzorin">@alexzorin</a></strong>
+
+<ul>
+<li>add support for <code>skip-name-resolve</code> option</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/jyotty">@jyotty</a></strong>
+
+<ul>
+<li>specify <code>binlog_format</code> in master and slave roles</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/adamdunkley">@adamdunkley</a></strong>
+
+<ul>
+<li>fix <code>table_cache</code> variable for mysql versions 5.6 and above</li>
+<li>remove unnecessary rewind, perform it directly</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/freerobby">@freerobby</a></strong>
+
+<ul>
+<li>add requirements to <code>Berksfile</code>
+</li>
+<li>more flexible apt dependency version to minimize conflicts</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/spovich">@spovich</a></strong>
+
+<ul>
+<li>disable <code>old_passwords</code> support by default</li>
+<li>force version 5.5 on Debian family to maintain consistency with RHEL family</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/v1nc3ntlaw">@v1nc3ntlaw</a></strong>
+
+<ul>
+<li>add attribute <code>innodb_file_format</code>
+</li>
+<li>add attribute <code>ignore_db</code> for slave template</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/joegaudet">@joegaudet</a></strong>
+
+<ul>
+<li>add attribute <code>group_concat_max_len</code>
+</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/mikesmullin">@mikesmullin</a></strong>
+
+<ul>
+<li>accumulating patches from multiple sources</li>
+<li>tempdir fixes</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/totally">@totally</a></strong>
+
+<ul>
+<li>support <code>yum</code> cookbook v3.0</li>
+<li>use attributes for package names</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/sapunoff">@sapunoff</a></strong>
+
+<ul>
+<li>initial implementation of using attributes for package names</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/errm">@errm</a></strong>
+
+<ul>
+<li>add attribute <code>skip_passwords</code>
+</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/ewr">@ewr</a></strong>
+
+<ul>
+<li>fix mysql calls when there is no root password</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/jharley">@jharley</a></strong>
+
+<ul>
+<li>make <code>connect_timeout</code> configurable</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/achied">@achied</a></strong>
+
+<ul>
+<li>fix setting passwords if attribute not defined</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/akshah123">@akshah123</a></strong>
+
+<ul>
+<li>force client packages to install version 5.5</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/tkuhlman">@tkuhlman</a></strong>
+
+<ul>
+<li>re-add cluster support</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/mancdaz">@mancdaz</a></strong>
+
+<ul>
+<li>install monitoring plugins from package instead of tarball</li>
+</ul>
+</li>
+</ul><h2>
+<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p><strong>chef-percona</strong></p>
+
+<ul>
+<li>Freely distributable and licensed under the <a href="http://phlipper.mit-license.org/2012-2014/license.html">MIT license</a>.</li>
+<li>Copyright (c) 2012-2014 Phil Cohen (<a href="mailto:github@phlippers.net">github@phlippers.net</a>) <a href="http://coderwall.com/phlipper"><img src="http://api.coderwall.com/phlipper/endorsecount.png" alt="endorse"></a>  <a href="https://www.gittip.com/phlipper/"><img src="http://img.shields.io/gittip/phlipper.png" alt="Gittip"></a>
+</li>
+<li><a href="http://phlippers.net/">http://phlippers.net/</a></li>
+</ul>
       </section>
     </div>
     <footer>
