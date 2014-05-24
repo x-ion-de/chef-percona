@@ -27,10 +27,7 @@
         </ul>
       </header>
       <section>
-        <h1>
-<a name="chef-percona" class="anchor" href="#chef-percona"><span class="octicon octicon-link"></span></a>chef-percona</h1>
-
-<p><a href="https://travis-ci.org/phlipper/chef-percona"><img src="http://img.shields.io/travis-ci/phlipper/chef-percona.png" alt="Build Status"></a>
+        <p><a href="https://travis-ci.org/phlipper/chef-percona"><img src="http://img.shields.io/travis-ci/phlipper/chef-percona.png" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/github/phlipper/chef-percona.png" alt="Code Climate"></a></p>
 
 <h2>
@@ -140,6 +137,11 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 
 <p>Set the <code>["percona"]["skip_passwords"]</code> attribute to skip setting up passwords. Removes the need for the encrypted data bag if using chef-solo. Is useful for setting up development and ci environments where you just want to use the root user with no password. If you are doing this you may want to set <code>[:percona][:server][:debian_username]</code> to be <code>"root"</code> also.</p>
 
+<h3>
+<a name="skip-configure" class="anchor" href="#skip-configure"><span class="octicon octicon-link"></span></a>Skip Configure</h3>
+
+<p>Set the <code>['percona']['skip_configure']</code> attribute to skip having the server recipe include the configure_server recipe directly after install. This is mostly useful in a wrapper cookbook sort of context. Once skipped, you can then perform any pre-config actions your wrapper needs to, such as dropping a custom configuration file or init script or cleaning up incorrectly sized innodb logfiles. You can then include configure_server where necessary.</p>
+
 <h4>
 <a name="mysql-item" class="anchor" href="#mysql-item"><span class="octicon octicon-link"></span></a>mysql item</h4>
 
@@ -167,6 +169,77 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 </pre></div>
 
 <p>Above shows the encrypted password in the data bag. Check out the <code>encrypted_data_bag_secret</code> setting in <code>knife.rb</code> to setup your data bag secret during bootstrapping.</p>
+
+<h3>
+<a name="percona-xtradb-cluster" class="anchor" href="#percona-xtradb-cluster"><span class="octicon octicon-link"></span></a>Percona XtraDB Cluster</h3>
+
+<p>Below is a minimal example setup to bootstrap a Percona XtraDB Cluster. Please see the <a href="http://www.percona.com/doc/percona-xtradb-cluster/5.6/index.html">official documentation</a> for more information. This is not a perfect example. It is just a sample to get you started.</p>
+
+<p>Wrapper recipe recipes/percona.rb:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="c1"># Setup the Percona XtraDB Cluster</span>
+<span class="n">cluster_ips</span> <span class="o">=</span> <span class="o">[]</span>
+<span class="k">unless</span> <span class="no">Chef</span><span class="o">::</span><span class="no">Config</span><span class="o">[</span><span class="ss">:solo</span><span class="o">]</span>
+  <span class="n">search</span><span class="p">(</span><span class="ss">:node</span><span class="p">,</span> <span class="s1">'role:percona'</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">other_node</span><span class="o">|</span>
+    <span class="k">next</span> <span class="k">if</span> <span class="n">other_node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span> <span class="o">==</span> <span class="n">node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span>
+    <span class="no">Chef</span><span class="o">::</span><span class="no">Log</span><span class="o">.</span><span class="n">info</span> <span class="s2">"Found Percona XtraDB cluster peer: </span><span class="si">#{</span><span class="n">other_node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
+    <span class="n">cluster_ips</span> <span class="o">&lt;&lt;</span> <span class="n">other_node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">cluster_ips</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">ip</span><span class="o">|</span>
+  <span class="n">firewall_rule</span> <span class="s2">"allow Percona group communication to peer </span><span class="si">#{</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+    <span class="n">source</span> <span class="n">ip</span>
+    <span class="n">port</span> <span class="mi">4567</span>
+    <span class="n">action</span> <span class="ss">:allow</span>
+  <span class="k">end</span>
+
+  <span class="n">firewall_rule</span> <span class="s2">"allow Percona state transfer to peer </span><span class="si">#{</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+    <span class="n">source</span> <span class="n">ip</span>
+    <span class="n">port</span> <span class="mi">4444</span>
+    <span class="n">action</span> <span class="ss">:allow</span>
+  <span class="k">end</span>
+
+  <span class="n">firewall_rule</span> <span class="s2">"allow Percona incremental state transfer to peer </span><span class="si">#{</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
+    <span class="n">source</span> <span class="n">ip</span>
+    <span class="n">port</span> <span class="mi">4568</span>
+    <span class="n">action</span> <span class="ss">:allow</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="n">cluster_address</span> <span class="o">=</span> <span class="s2">"gcomm://</span><span class="si">#{</span><span class="n">cluster_ips</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
+<span class="no">Chef</span><span class="o">::</span><span class="no">Log</span><span class="o">.</span><span class="n">info</span> <span class="s2">"Using Percona XtraDB cluster address of: </span><span class="si">#{</span><span class="n">cluster_address</span><span class="si">}</span><span class="s2">"</span>
+<span class="n">node</span><span class="o">.</span><span class="n">override</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_address"</span><span class="o">]</span> <span class="o">=</span> <span class="n">cluster_address</span>
+<span class="n">node</span><span class="o">.</span><span class="n">override</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_node_name"</span><span class="o">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="s1">'hostname'</span><span class="o">]</span>
+
+<span class="n">include_recipe</span> <span class="s1">'percona::cluster'</span>
+<span class="n">include_recipe</span> <span class="s1">'percona::backup'</span>
+<span class="n">include_recipe</span> <span class="s1">'percona::toolkit'</span>
+</pre></div>
+
+<p>Example percona role roles/percona.rb:</p>
+
+<div class="highlight highlight-ruby"><pre><span class="nb">name</span> <span class="s2">"percona"</span>
+<span class="n">description</span> <span class="s2">"Percona XtraDB Cluster"</span>
+
+<span class="n">run_list</span> <span class="s1">'recipe[paydici::percona]'</span>
+
+<span class="n">default_attributes</span><span class="p">(</span>
+  <span class="s2">"percona"</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="s2">"server"</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="s2">"role"</span> <span class="o">=&gt;</span> <span class="s2">"cluster"</span>
+    <span class="p">},</span>
+
+    <span class="s2">"cluster"</span> <span class="o">=&gt;</span> <span class="p">{</span>
+      <span class="s2">"package"</span>                     <span class="o">=&gt;</span> <span class="s2">"percona-xtradb-cluster-56"</span><span class="p">,</span>
+      <span class="s2">"wsrep_cluster_name"</span>          <span class="o">=&gt;</span> <span class="s2">"percona_cluster_1"</span><span class="p">,</span>
+      <span class="s2">"wsrep_sst_receive_interface"</span> <span class="o">=&gt;</span> <span class="s2">"eth1"</span> <span class="c1"># can be eth0, public, private, etc.</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">)</span>
+</pre></div>
+
+<p>Now you need to bring three servers up one at a time with the percona role applied to them. By default the servers will sync up via rsync server state transfer (SST)</p>
 
 <h2>
 <a name="attributes" class="anchor" href="#attributes"><span class="octicon octicon-link"></span></a>Attributes</h2>
@@ -205,6 +278,7 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"role"</span><span class="o">]</span>                            <span class="o">=</span> <span class="s2">"standalone"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"mysql"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"datadir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/lib/mysql"</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"logdir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/log/mysql"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmpdir"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/tmp"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_username"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"debian-sys-maint"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"nice"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">0</span>
@@ -219,6 +293,7 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_external_locking"</span><span class="o">]</span>           <span class="o">=</span> <span class="kp">true</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"net_read_timeout"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">120</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"connect_timeout"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">10</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"wait_timeout"</span><span class="o">]</span>                    <span class="o">=</span> <span class="mi">28_800</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"old_passwords"</span><span class="o">]</span>                   <span class="o">=</span> <span class="mi">0</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"bind_address"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"127.0.0.1"</span>
 <span class="sx">%w[debian_password root_password]</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
@@ -312,6 +387,12 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_name"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">""</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_sst_method"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"rsync"</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_node_name"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">""</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_notify_cmd"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">""</span>
+
+<span class="c1"># These both are used to build wsrep_sst_receive_address</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_sst_receive_interface"</span><span class="o">]</span>    <span class="o">=</span> <span class="kp">nil</span> <span class="c1"># Works like node["percona"]["server"]["bind_to"]</span>
+<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_sst_receive_port"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"4444"</span>
+
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_locks_unsafe_for_binlog"</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_autoinc_lock_mode"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">2</span>
 </pre></div>
@@ -509,6 +590,7 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 
 <ul>
 <li>fixes for custom datadir setting use case</li>
+<li>add more Percona XtraDB cluster options</li>
 </ul>
 </li>
 <li>
@@ -693,6 +775,39 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 
 <ul>
 <li>install monitoring plugins from package instead of tarball</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/iancoffey">@iancoffey</a></strong>
+
+<ul>
+<li>set debian-sys-maint password after grant</li>
+<li>add attribute <code>skip_configure</code>
+</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/notnmeyer">@notnmeyer</a></strong>
+
+<ul>
+<li>fix <code>access_grants</code> guards for <code>cluster</code> and <code>backup</code> recipes</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/odacrem">@odacrem</a></strong>
+
+<ul>
+<li>use correct replication username in <code>replication.sql</code>
+</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/g3kk0">@g3kk0</a></strong>
+
+<ul>
+<li>fix missing mysql log directory</li>
+<li>add attribute <code>wait_timeout</code>
+</li>
 </ul>
 </li>
 </ul><h2>
