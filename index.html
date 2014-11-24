@@ -31,7 +31,7 @@
 <a href="https://codeclimate.com/github/phlipper/chef-percona"><img src="https://codeclimate.com/github/phlipper/chef-percona.png" alt="Code Climate"></a></p>
 
 <h2>
-<a name="description" class="anchor" href="#description"><span class="octicon octicon-link"></span></a>Description</h2>
+<a id="description" class="anchor" href="#description" aria-hidden="true"><span class="octicon octicon-link"></span></a>Description</h2>
 
 <p>Installs the <a href="http://www.percona.com/software/percona-server">Percona
 MySQL</a> client and/or
@@ -51,11 +51,13 @@ Cluster</a> high
 availability and high scalability solution for MySQL.</li>
 <li>
 <a href="http://www.percona.com/software/percona-monitoring-plugins">Percona Monitoring Plugins</a> various Nagios plugins for monitoring MySQL</li>
-</ul><h2>
-<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+</ul>
+
+<h2>
+<a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
 <h3>
-<a name="supported-platforms" class="anchor" href="#supported-platforms"><span class="octicon octicon-link"></span></a>Supported Platforms</h3>
+<a id="supported-platforms" class="anchor" href="#supported-platforms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Supported Platforms</h3>
 
 <p>We provide an expanding set of tests against the following 64-bit platforms:</p>
 
@@ -63,7 +65,9 @@ availability and high scalability solution for MySQL.</li>
 <li>Ubuntu Precise 12.04 LTS</li>
 <li>Ubuntu Trusty 14.04 LTS</li>
 <li>CentOS 6.5</li>
-</ul><p>Although we don't test against all possible platform verions, we expect
+</ul>
+
+<p>Although we don't test against all possible platform verions, we expect
 the following to be supported. Please submit an issue if this is not the
 cause, and we'll make reasonable efforts to improve support:</p>
 
@@ -75,25 +79,31 @@ cause, and we'll make reasonable efforts to improve support:</p>
 <li>Red Hat</li>
 <li>Scientific</li>
 <li>Fedora</li>
-</ul><h3>
-<a name="cookbooks" class="anchor" href="#cookbooks"><span class="octicon octicon-link"></span></a>Cookbooks</h3>
+</ul>
+
+<h3>
+<a id="cookbooks" class="anchor" href="#cookbooks" aria-hidden="true"><span class="octicon octicon-link"></span></a>Cookbooks</h3>
 
 <ul>
 <li>
-<a href="http://community.opscode.com/cookbooks/apt">apt</a> Opscode LWRP Cookbook</li>
+<a href="https://supermarket.getchef.com/cookbooks/apt">apt</a> Chef LWRP Cookbook</li>
 <li>
-<a href="http://community.opscode.com/cookbooks/openssl">openssl</a> Opscode Cookbook</li>
+<a href="https://supermarket.getchef.com/cookbooks/openssl">openssl</a> Chef Cookbook</li>
 <li>
-<a href="http://community.opscode.com/cookbooks/yum">yum</a> Opscode LWRP Cookbook</li>
-</ul><h3>
-<a name="chef" class="anchor" href="#chef"><span class="octicon octicon-link"></span></a>Chef</h3>
+<a href="https://supermarket.getchef.com/cookbooks/yum">yum</a> Chef LWRP Cookbook</li>
+<li>
+<a href="https://supermarket.getchef.com/cookbooks/yum-epel">yum-epel</a> Chef LWRP Cookbook</li>
+</ul>
+
+<h3>
+<a id="chef" class="anchor" href="#chef" aria-hidden="true"><span class="octicon octicon-link"></span></a>Chef</h3>
 
 <p>We aim to test the most recent releases of Chef 10 and 11. You can view
 the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">currently tested versions</a>.
 (Feel free to submit a pull request if they're out of date!)</p>
 
 <h2>
-<a name="recipes" class="anchor" href="#recipes"><span class="octicon octicon-link"></span></a>Recipes</h2>
+<a id="recipes" class="anchor" href="#recipes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Recipes</h2>
 
 <ul>
 <li>
@@ -118,319 +128,373 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <code>percona::access_grants</code> - Used internally to grant permissions for recipes.</li>
 <li>
 <code>percona::monitoring</code> - Installs Percona monitoring plugins for Nagios</li>
-</ul><h2>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+</ul>
+
+<h2>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
 
 <p>This cookbook installs the Percona MySQL components if not present, and pulls updates if they are installed on the system.</p>
 
 <h3>
-<a name="encrypted-passwords" class="anchor" href="#encrypted-passwords"><span class="octicon octicon-link"></span></a>Encrypted Passwords</h3>
+<a id="encrypted-passwords" class="anchor" href="#encrypted-passwords" aria-hidden="true"><span class="octicon octicon-link"></span></a>Encrypted Passwords</h3>
 
 <p>This cookbook requires <a href="http://wiki.opscode.com/display/chef/Encrypted+Data+Bags">Encrypted Data Bags</a>. If you forget to use them or do not use a node attribute to overwrite them empty passwords will be used.</p>
 
-<p>To use encrypted passwords, you must create an encrypted data bag. This cookbook assumes a data bag named <code>passwords</code>, but you can override the name using the <code>node[:percona][:encrypted_data_bag]</code> attribute.</p>
+<p>To use encrypted passwords, you must create an encrypted data bag. This cookbook assumes a data bag named <code>passwords</code>, but you can override the name using the <code>node[:percona][:encrypted_data_bag]</code> attribute.  You can also optionally specify a data bag secret file to be loaded for the secret key using the <code>node[:percona][:encrypted_data_bag_secret_file]</code> attribute.</p>
 
 <p>This cookbook expects a <code>mysql</code> item  and a <code>system</code> item. Please refer to the official documentation on how to get this setup. It actually uses a MySQL example so it can be mostly copied. Ensure you cover the data bag items as described below.</p>
 
 <h3>
-<a name="skip-passwords" class="anchor" href="#skip-passwords"><span class="octicon octicon-link"></span></a>Skip passwords</h3>
+<a id="skip-passwords" class="anchor" href="#skip-passwords" aria-hidden="true"><span class="octicon octicon-link"></span></a>Skip passwords</h3>
 
 <p>Set the <code>["percona"]["skip_passwords"]</code> attribute to skip setting up passwords. Removes the need for the encrypted data bag if using chef-solo. Is useful for setting up development and ci environments where you just want to use the root user with no password. If you are doing this you may want to set <code>[:percona][:server][:debian_username]</code> to be <code>"root"</code> also.</p>
 
 <h3>
-<a name="skip-configure" class="anchor" href="#skip-configure"><span class="octicon octicon-link"></span></a>Skip Configure</h3>
+<a id="skip-configure" class="anchor" href="#skip-configure" aria-hidden="true"><span class="octicon octicon-link"></span></a>Skip Configure</h3>
 
 <p>Set the <code>['percona']['skip_configure']</code> attribute to skip having the server recipe include the configure_server recipe directly after install. This is mostly useful in a wrapper cookbook sort of context. Once skipped, you can then perform any pre-config actions your wrapper needs to, such as dropping a custom configuration file or init script or cleaning up incorrectly sized innodb logfiles. You can then include configure_server where necessary.</p>
 
 <h4>
-<a name="mysql-item" class="anchor" href="#mysql-item"><span class="octicon octicon-link"></span></a>mysql item</h4>
+<a id="mysql-item" class="anchor" href="#mysql-item" aria-hidden="true"><span class="octicon octicon-link"></span></a>mysql item</h4>
 
 <p>The mysql item should contain entries for root, backup, and replication. If no value is found, the cookbook will fall back to the default non-encrypted password.</p>
 
 <h4>
-<a name="system-item" class="anchor" href="#system-item"><span class="octicon octicon-link"></span></a>system item</h4>
+<a id="system-item" class="anchor" href="#system-item" aria-hidden="true"><span class="octicon octicon-link"></span></a>system item</h4>
 
 <p>The "system" item should contain an entry for the debian system user as specified in the <code>node[:percona][:server][:debian_username]</code> attribute. If no such entry is found, the cookbook will fall back to the default non-encrypted password.</p>
 
 <p>Example: "passwords" data bag - this example assumes that <code>node[:percona][:server][:debian_username] = spud</code></p>
 
-<div class="highlight highlight-javascript"><pre><span class="p">{</span>
-  <span class="s2">"mysql"</span> <span class="o">:</span>
-  <span class="p">{</span>
-    <span class="s2">"root"</span> <span class="o">:</span> <span class="s2">"trywgFA6R70NO28PNhMpGhEvKBZuxouemnbnAUQsUyo=\n"</span>
-    <span class="s2">"backup"</span> <span class="o">:</span> <span class="s2">"eqoiudfj098389fjadfkadf=\n"</span>
-    <span class="s2">"replication"</span> <span class="o">:</span> <span class="s2">"qwo0fj0213fm9020fm2023fjsld=\n"</span>
-  <span class="p">},</span>
-  <span class="s2">"system"</span> <span class="o">:</span>
-  <span class="p">{</span>
-    <span class="s2">"spud"</span> <span class="o">:</span> <span class="s2">"dwoifm2340f024jfadgfu243hf2=\n"</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</pre></div>
+<div class="highlight highlight-javascript"><pre>{
+  <span class="pl-s1"><span class="pl-pds">"</span>mysql<span class="pl-pds">"</span></span> <span class="pl-k">:</span>
+  {
+    <span class="pl-s1"><span class="pl-pds">"</span>root<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>trywgFA6R70NO28PNhMpGhEvKBZuxouemnbnAUQsUyo=<span class="pl-cce">\n</span><span class="pl-pds">"</span></span>
+    <span class="pl-s1"><span class="pl-pds">"</span>backup<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>eqoiudfj098389fjadfkadf=<span class="pl-cce">\n</span><span class="pl-pds">"</span></span>
+    <span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>qwo0fj0213fm9020fm2023fjsld=<span class="pl-cce">\n</span><span class="pl-pds">"</span></span>
+  },
+  <span class="pl-s1"><span class="pl-pds">"</span>system<span class="pl-pds">"</span></span> <span class="pl-k">:</span>
+  {
+    <span class="pl-s1"><span class="pl-pds">"</span>spud<span class="pl-pds">"</span></span> <span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>dwoifm2340f024jfadgfu243hf2=<span class="pl-cce">\n</span><span class="pl-pds">"</span></span>
+  }
+}</pre></div>
 
 <p>Above shows the encrypted password in the data bag. Check out the <code>encrypted_data_bag_secret</code> setting in <code>knife.rb</code> to setup your data bag secret during bootstrapping.</p>
 
 <h3>
-<a name="percona-xtradb-cluster" class="anchor" href="#percona-xtradb-cluster"><span class="octicon octicon-link"></span></a>Percona XtraDB Cluster</h3>
+<a id="replication-over-ssl" class="anchor" href="#replication-over-ssl" aria-hidden="true"><span class="octicon octicon-link"></span></a>Replication over SSL</h3>
+
+<p>To enable SSL based replication, you will need to flip the attribute <code>node[:percona][:server][:replication][:ssl_enabled]</code> to <code>true</code> and add a new data_bag item
+to the percona encrypted data_bag (see <code>node[:percona][:encrypted_data_bag]</code> attribute) with the id <code>ssl_replication</code> that contains this data:</p>
+
+<div class="highlight highlight-javascript"><pre>{
+  <span class="pl-s1"><span class="pl-pds">"</span>id<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>ssl_replication<span class="pl-pds">"</span></span>,
+  <span class="pl-s1"><span class="pl-pds">"</span>ca-cert<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>CA_CERTIFICATE_STRING<span class="pl-pds">"</span></span>,
+  <span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>server-cert<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>SERVER_CERTIFICATE_STRING<span class="pl-pds">"</span></span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>server-key<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>SERVER_KEY_STRING<span class="pl-pds">"</span></span>
+  },
+  <span class="pl-s1"><span class="pl-pds">"</span>client<span class="pl-pds">"</span></span><span class="pl-k">:</span> {
+    <span class="pl-s1"><span class="pl-pds">"</span>client-cert<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>CLIENT_CERTIFICATE_STRING<span class="pl-pds">"</span></span>,
+    <span class="pl-s1"><span class="pl-pds">"</span>client-key<span class="pl-pds">"</span></span><span class="pl-k">:</span> <span class="pl-s1"><span class="pl-pds">"</span>CLIENT_KEY_STRING<span class="pl-pds">"</span></span>
+  }
+}</pre></div>
+
+<p>All certificates and keys have to be converted to a string (easiest way is to use ruby: <em>/usr/bin/env ruby -e 'p ARGF.read'</em> <strong>filename</strong>) and placed
+instead of CA_CERTIFICATE_STRING, SERVER_CERTIFICATE_STRING, SERVER_KEY_STRING, CLIENT_CERTIFICATE_STRING, CLIENT_KEY_STRING.</p>
+
+<h3>
+<a id="percona-xtradb-cluster" class="anchor" href="#percona-xtradb-cluster" aria-hidden="true"><span class="octicon octicon-link"></span></a>Percona XtraDB Cluster</h3>
 
 <p>Below is a minimal example setup to bootstrap a Percona XtraDB Cluster. Please see the <a href="http://www.percona.com/doc/percona-xtradb-cluster/5.6/index.html">official documentation</a> for more information. This is not a perfect example. It is just a sample to get you started.</p>
 
 <p>Wrapper recipe recipes/percona.rb:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="c1"># Setup the Percona XtraDB Cluster</span>
-<span class="n">cluster_ips</span> <span class="o">=</span> <span class="o">[]</span>
-<span class="k">unless</span> <span class="no">Chef</span><span class="o">::</span><span class="no">Config</span><span class="o">[</span><span class="ss">:solo</span><span class="o">]</span>
-  <span class="n">search</span><span class="p">(</span><span class="ss">:node</span><span class="p">,</span> <span class="s1">'role:percona'</span><span class="p">)</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">other_node</span><span class="o">|</span>
-    <span class="k">next</span> <span class="k">if</span> <span class="n">other_node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span> <span class="o">==</span> <span class="n">node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span>
-    <span class="no">Chef</span><span class="o">::</span><span class="no">Log</span><span class="o">.</span><span class="n">info</span> <span class="s2">"Found Percona XtraDB cluster peer: </span><span class="si">#{</span><span class="n">other_node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span><span class="si">}</span><span class="s2">"</span>
-    <span class="n">cluster_ips</span> <span class="o">&lt;&lt;</span> <span class="n">other_node</span><span class="o">[</span><span class="s1">'private_ipaddress'</span><span class="o">]</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+<div class="highlight highlight-ruby"><pre><span class="pl-c"># Setup the Percona XtraDB Cluster</span>
+cluster_ips <span class="pl-k">=</span> []
+<span class="pl-k">unless</span> <span class="pl-s3">Chef</span>::<span class="pl-s3">Config</span>[<span class="pl-c1">:solo</span>]
+  search(<span class="pl-c1">:node</span>, <span class="pl-s1"><span class="pl-pds">'</span>role:percona<span class="pl-pds">'</span></span>).each <span class="pl-k">do </span>|<span class="pl-vo">other_node</span>|
+    <span class="pl-k">next</span> <span class="pl-k">if</span> other_node[<span class="pl-s1"><span class="pl-pds">'</span>private_ipaddress<span class="pl-pds">'</span></span>] <span class="pl-k">==</span> node[<span class="pl-s1"><span class="pl-pds">'</span>private_ipaddress<span class="pl-pds">'</span></span>]
+    <span class="pl-s3">Chef</span>::<span class="pl-s3">Log</span>.info <span class="pl-s1"><span class="pl-pds">"</span>Found Percona XtraDB cluster peer: <span class="pl-pse">#{</span><span class="pl-s2">other_node[<span class="pl-s1"><span class="pl-pds">'</span>private_ipaddress<span class="pl-pds">'</span></span>]</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span>
+    cluster_ips <span class="pl-k">&lt;&lt;</span> other_node[<span class="pl-s1"><span class="pl-pds">'</span>private_ipaddress<span class="pl-pds">'</span></span>]
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="n">cluster_ips</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">ip</span><span class="o">|</span>
-  <span class="n">firewall_rule</span> <span class="s2">"allow Percona group communication to peer </span><span class="si">#{</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
-    <span class="n">source</span> <span class="n">ip</span>
-    <span class="n">port</span> <span class="mi">4567</span>
-    <span class="n">action</span> <span class="ss">:allow</span>
-  <span class="k">end</span>
+cluster_ips.each <span class="pl-k">do </span>|<span class="pl-vo">ip</span>|
+  firewall_rule <span class="pl-s1"><span class="pl-pds">"</span>allow Percona group communication to peer <span class="pl-pse">#{</span><span class="pl-s2">ip</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    source ip
+    port <span class="pl-c1">4567</span>
+    action <span class="pl-c1">:allow</span>
+  <span class="pl-k">end</span>
 
-  <span class="n">firewall_rule</span> <span class="s2">"allow Percona state transfer to peer </span><span class="si">#{</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
-    <span class="n">source</span> <span class="n">ip</span>
-    <span class="n">port</span> <span class="mi">4444</span>
-    <span class="n">action</span> <span class="ss">:allow</span>
-  <span class="k">end</span>
+  firewall_rule <span class="pl-s1"><span class="pl-pds">"</span>allow Percona state transfer to peer <span class="pl-pse">#{</span><span class="pl-s2">ip</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    source ip
+    port <span class="pl-c1">4444</span>
+    action <span class="pl-c1">:allow</span>
+  <span class="pl-k">end</span>
 
-  <span class="n">firewall_rule</span> <span class="s2">"allow Percona incremental state transfer to peer </span><span class="si">#{</span><span class="n">ip</span><span class="si">}</span><span class="s2">"</span> <span class="k">do</span>
-    <span class="n">source</span> <span class="n">ip</span>
-    <span class="n">port</span> <span class="mi">4568</span>
-    <span class="n">action</span> <span class="ss">:allow</span>
-  <span class="k">end</span>
-<span class="k">end</span>
+  firewall_rule <span class="pl-s1"><span class="pl-pds">"</span>allow Percona incremental state transfer to peer <span class="pl-pse">#{</span><span class="pl-s2">ip</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span> <span class="pl-k">do</span>
+    source ip
+    port <span class="pl-c1">4568</span>
+    action <span class="pl-c1">:allow</span>
+  <span class="pl-k">end</span>
+<span class="pl-k">end</span>
 
-<span class="n">cluster_address</span> <span class="o">=</span> <span class="s2">"gcomm://</span><span class="si">#{</span><span class="n">cluster_ips</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">','</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-<span class="no">Chef</span><span class="o">::</span><span class="no">Log</span><span class="o">.</span><span class="n">info</span> <span class="s2">"Using Percona XtraDB cluster address of: </span><span class="si">#{</span><span class="n">cluster_address</span><span class="si">}</span><span class="s2">"</span>
-<span class="n">node</span><span class="o">.</span><span class="n">override</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_address"</span><span class="o">]</span> <span class="o">=</span> <span class="n">cluster_address</span>
-<span class="n">node</span><span class="o">.</span><span class="n">override</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_node_name"</span><span class="o">]</span> <span class="o">=</span> <span class="n">node</span><span class="o">[</span><span class="s1">'hostname'</span><span class="o">]</span>
+cluster_address <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>gcomm://<span class="pl-pse">#{</span><span class="pl-s2">cluster_ips.join(<span class="pl-s1"><span class="pl-pds">'</span>,<span class="pl-pds">'</span></span>)</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span>
+<span class="pl-s3">Chef</span>::<span class="pl-s3">Log</span>.info <span class="pl-s1"><span class="pl-pds">"</span>Using Percona XtraDB cluster address of: <span class="pl-pse">#{</span><span class="pl-s2">cluster_address</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span>
+node.override[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_cluster_address<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> cluster_address
+node.override[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_node_name<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> node[<span class="pl-s1"><span class="pl-pds">'</span>hostname<span class="pl-pds">'</span></span>]
 
-<span class="n">include_recipe</span> <span class="s1">'percona::cluster'</span>
-<span class="n">include_recipe</span> <span class="s1">'percona::backup'</span>
-<span class="n">include_recipe</span> <span class="s1">'percona::toolkit'</span>
-</pre></div>
+include_recipe <span class="pl-s1"><span class="pl-pds">'</span>percona::cluster<span class="pl-pds">'</span></span>
+include_recipe <span class="pl-s1"><span class="pl-pds">'</span>percona::backup<span class="pl-pds">'</span></span>
+include_recipe <span class="pl-s1"><span class="pl-pds">'</span>percona::toolkit<span class="pl-pds">'</span></span></pre></div>
 
 <p>Example percona role roles/percona.rb:</p>
 
-<div class="highlight highlight-ruby"><pre><span class="nb">name</span> <span class="s2">"percona"</span>
-<span class="n">description</span> <span class="s2">"Percona XtraDB Cluster"</span>
+<div class="highlight highlight-ruby"><pre>name <span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>
+description <span class="pl-s1"><span class="pl-pds">"</span>Percona XtraDB Cluster<span class="pl-pds">"</span></span>
 
-<span class="n">run_list</span> <span class="s1">'recipe[paydici::percona]'</span>
+run_list <span class="pl-s1"><span class="pl-pds">'</span>recipe[paydici::percona]<span class="pl-pds">'</span></span>
 
-<span class="n">default_attributes</span><span class="p">(</span>
-  <span class="s2">"percona"</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="s2">"server"</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="s2">"role"</span> <span class="o">=&gt;</span> <span class="s2">"cluster"</span>
-    <span class="p">},</span>
+default_attributes(
+  <span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span> =&gt; {
+    <span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span> =&gt; {
+      <span class="pl-s1"><span class="pl-pds">"</span>role<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>
+    },
 
-    <span class="s2">"cluster"</span> <span class="o">=&gt;</span> <span class="p">{</span>
-      <span class="s2">"package"</span>                     <span class="o">=&gt;</span> <span class="s2">"percona-xtradb-cluster-56"</span><span class="p">,</span>
-      <span class="s2">"wsrep_cluster_name"</span>          <span class="o">=&gt;</span> <span class="s2">"percona_cluster_1"</span><span class="p">,</span>
-      <span class="s2">"wsrep_sst_receive_interface"</span> <span class="o">=&gt;</span> <span class="s2">"eth1"</span> <span class="c1"># can be eth0, public, private, etc.</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">)</span>
-</pre></div>
+    <span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span> =&gt; {
+      <span class="pl-s1"><span class="pl-pds">"</span>package<span class="pl-pds">"</span></span>                     =&gt; <span class="pl-s1"><span class="pl-pds">"</span>percona-xtradb-cluster-56<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>wsrep_cluster_name<span class="pl-pds">"</span></span>          =&gt; <span class="pl-s1"><span class="pl-pds">"</span>percona_cluster_1<span class="pl-pds">"</span></span>,
+      <span class="pl-s1"><span class="pl-pds">"</span>wsrep_sst_receive_interface<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>eth1<span class="pl-pds">"</span></span> <span class="pl-c"># can be eth0, public, private, etc.</span>
+    }
+  }
+)</pre></div>
 
 <p>Now you need to bring three servers up one at a time with the percona role applied to them. By default the servers will sync up via rsync server state transfer (SST)</p>
 
 <h2>
-<a name="attributes" class="anchor" href="#attributes"><span class="octicon octicon-link"></span></a>Attributes</h2>
+<a id="attributes" class="anchor" href="#attributes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Attributes</h2>
 
-<div class="highlight highlight-ruby"><pre><span class="n">version</span> <span class="o">=</span> <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"version"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"5.6"</span>
+<div class="highlight highlight-ruby"><pre>version <span class="pl-k">=</span> default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>version<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>5.6<span class="pl-pds">"</span></span>
 
-<span class="c1"># Always restart percona on configuration changes</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"auto_restart"</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+<span class="pl-c"># Always restart percona on configuration changes</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>auto_restart<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">true</span>
 
-<span class="k">case</span> <span class="n">node</span><span class="o">[</span><span class="s2">"platform_family"</span><span class="o">]</span>
-<span class="k">when</span> <span class="s2">"debian"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.sock"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>        <span class="o">=</span> <span class="s2">"InnoDB"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"/etc/mysql/conf.d/"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"/var/run/mysqld/mysqld.pid"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"package"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"percona-server-server-</span><span class="si">#{</span><span class="n">version</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">when</span> <span class="s2">"rhel"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"socket"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/var/lib/mysql/mysql.sock"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"default_storage_engine"</span><span class="o">]</span>        <span class="o">=</span> <span class="s2">"innodb"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"includedir"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">""</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"pidfile"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"/var/lib/mysql/mysqld.pid"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"package"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"Percona-Server-server-</span><span class="si">#{</span><span class="n">version</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"shared_pkg"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"Percona-Server-shared-</span><span class="si">#{</span><span class="n">version</span><span class="o">.</span><span class="n">tr</span><span class="p">(</span><span class="s1">'.'</span><span class="p">,</span> <span class="s1">''</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span>
-<span class="k">end</span>
+<span class="pl-k">case</span> node[<span class="pl-s1"><span class="pl-pds">"</span>platform_family<span class="pl-pds">"</span></span>]
+<span class="pl-k">when</span> <span class="pl-s1"><span class="pl-pds">"</span>debian<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>socket<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/run/mysqld/mysqld.sock<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>default_storage_engine<span class="pl-pds">"</span></span>]        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>InnoDB<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>includedir<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/etc/mysql/conf.d/<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>pidfile<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/run/mysqld/mysqld.pid<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>package<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>percona-server-server-<span class="pl-pse">#{</span><span class="pl-s2">version</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span>
+<span class="pl-k">when</span> <span class="pl-s1"><span class="pl-pds">"</span>rhel<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>socket<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/lib/mysql/mysql.sock<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>default_storage_engine<span class="pl-pds">"</span></span>]        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>innodb<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>includedir<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>pidfile<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/lib/mysql/mysqld.pid<span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>package<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Percona-Server-server-<span class="pl-pse">#{</span><span class="pl-s2">version.tr(<span class="pl-s1"><span class="pl-pds">'</span>.<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>)</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span>
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>shared_pkg<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Percona-Server-shared-<span class="pl-pse">#{</span><span class="pl-s2">version.tr(<span class="pl-s1"><span class="pl-pds">'</span>.<span class="pl-pds">'</span></span>, <span class="pl-s1"><span class="pl-pds">'</span><span class="pl-pds">'</span></span>)</span><span class="pl-pse"><span class="pl-s2">}</span></span><span class="pl-pds">"</span></span>
+<span class="pl-k">end</span>
 
-<span class="c1"># Cookbook Settings</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"main_config_file"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/etc/my.cnf"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"keyserver"</span><span class="o">]</span>                                 <span class="o">=</span> <span class="s2">"keys.gnupg.net"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"encrypted_data_bag"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"passwords"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"use_percona_repos"</span><span class="o">]</span>                         <span class="o">=</span> <span class="kp">true</span>
+<span class="pl-c"># Cookbook Settings</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>main_config_file<span class="pl-pds">"</span></span>]                          <span class="pl-k">=</span> value_for_platform_family(
+                                                                    <span class="pl-s1"><span class="pl-pds">"</span>debian<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>/etc/mysql/my.cnf<span class="pl-pds">"</span></span>,
+                                                                    <span class="pl-s1"><span class="pl-pds">"</span>rhel<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>/etc/my.cnf<span class="pl-pds">"</span></span>
+                                                                  )
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>keyserver<span class="pl-pds">"</span></span>]                                 <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>keys.gnupg.net<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>encrypted_data_bag<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>passwords<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>encrypted_data_bag_secret_file<span class="pl-pds">"</span></span>]            <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>use_percona_repos<span class="pl-pds">"</span></span>]                         <span class="pl-k">=</span> <span class="pl-c1">true</span>
 
-<span class="c1"># Start percona server on boot</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"enable"</span><span class="o">]</span>                          <span class="o">=</span> <span class="kp">true</span>
+<span class="pl-c"># Start percona server on boot</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>enable<span class="pl-pds">"</span></span>]                          <span class="pl-k">=</span> <span class="pl-c1">true</span>
 
-<span class="c1"># Basic Settings</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"role"</span><span class="o">]</span>                            <span class="o">=</span> <span class="s2">"standalone"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"mysql"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"datadir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/lib/mysql"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"logdir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/var/log/mysql"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmpdir"</span><span class="o">]</span>                          <span class="o">=</span> <span class="s2">"/tmp"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"debian_username"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"debian-sys-maint"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"nice"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">0</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"open_files_limit"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">16384</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"hostname"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"localhost"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"basedir"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"/usr"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"port"</span><span class="o">]</span>                            <span class="o">=</span> <span class="mi">3306</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"character_set"</span><span class="o">]</span>                   <span class="o">=</span> <span class="s2">"utf8"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"collation"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"utf8_unicode_ci"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"language"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"/usr/share/mysql/english"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_name_resolve"</span><span class="o">]</span>               <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_external_locking"</span><span class="o">]</span>           <span class="o">=</span> <span class="kp">true</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"net_read_timeout"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">120</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"connect_timeout"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">10</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"wait_timeout"</span><span class="o">]</span>                    <span class="o">=</span> <span class="mi">28_800</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"old_passwords"</span><span class="o">]</span>                   <span class="o">=</span> <span class="mi">0</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"bind_address"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"127.0.0.1"</span>
-<span class="sx">%w[debian_password root_password]</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">attribute</span><span class="o">|</span>
-  <span class="k">next</span> <span class="k">if</span> <span class="n">defined?</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="n">attribute</span><span class="o">]</span><span class="p">)</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="n">attribute</span><span class="o">]</span>                       <span class="o">=</span> <span class="n">secure_password</span>
-<span class="k">end</span>
+<span class="pl-c"># Basic Settings</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>role<span class="pl-pds">"</span></span>]                            <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>standalone<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>username<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>mysql<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>datadir<span class="pl-pds">"</span></span>]                         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/lib/mysql<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>logdir<span class="pl-pds">"</span></span>]                         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/log/mysql<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>tmpdir<span class="pl-pds">"</span></span>]                          <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/tmp<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>debian_username<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>debian-sys-maint<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>jemalloc<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>jemalloc_lib<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> value_for_platform_family(
+                                                                    <span class="pl-s1"><span class="pl-pds">"</span>debian<span class="pl-pds">"</span></span> =&gt; value_for_platform(
+                                                                      <span class="pl-s1"><span class="pl-pds">"</span>ubuntu<span class="pl-pds">"</span></span> =&gt; {
+                                                                        <span class="pl-s1"><span class="pl-pds">"</span>trusty<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>/usr/lib/x86_64-linux-gnu/libjemalloc.so.1<span class="pl-pds">"</span></span>,
+                                                                        <span class="pl-s1"><span class="pl-pds">"</span>precise<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>/usr/lib/libjemalloc.so.1<span class="pl-pds">"</span></span>
+                                                                      }
+                                                                    ),
+                                                                    <span class="pl-s1"><span class="pl-pds">"</span>rhel<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>/usr/lib64/libjemalloc.so.1<span class="pl-pds">"</span></span>
+                                                                  )
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>nice<span class="pl-pds">"</span></span>]                            <span class="pl-k">=</span> <span class="pl-c1">0</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>open_files_limit<span class="pl-pds">"</span></span>]                <span class="pl-k">=</span> <span class="pl-c1">16384</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>hostname<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>localhost<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>basedir<span class="pl-pds">"</span></span>]                         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/usr<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>port<span class="pl-pds">"</span></span>]                            <span class="pl-k">=</span> <span class="pl-c1">3306</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>character_set<span class="pl-pds">"</span></span>]                   <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>utf8<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>collation<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>utf8_unicode_ci<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>language<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/usr/share/mysql/english<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>skip_name_resolve<span class="pl-pds">"</span></span>]               <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>skip_external_locking<span class="pl-pds">"</span></span>]           <span class="pl-k">=</span> <span class="pl-c1">true</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>net_read_timeout<span class="pl-pds">"</span></span>]                <span class="pl-k">=</span> <span class="pl-c1">120</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>connect_timeout<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> <span class="pl-c1">10</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wait_timeout<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> <span class="pl-c1">28_800</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>old_passwords<span class="pl-pds">"</span></span>]                   <span class="pl-k">=</span> <span class="pl-c1">0</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>bind_address<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>127.0.0.1<span class="pl-pds">"</span></span>
+<span class="pl-s1"><span class="pl-pds">%w[</span>debian_password root_password<span class="pl-pds">]</span></span>.each <span class="pl-k">do </span>|<span class="pl-vo">attribute</span>|
+  <span class="pl-k">next</span> <span class="pl-k">if</span> <span class="pl-k">defined?</span>(node[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][attribute])
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][attribute]                       <span class="pl-k">=</span> secure_password
+<span class="pl-k">end</span>
 
-<span class="c1"># Fine Tuning</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"key_buffer"</span><span class="o">]</span>                      <span class="o">=</span> <span class="s2">"16M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_allowed_packet"</span><span class="o">]</span>              <span class="o">=</span> <span class="s2">"64M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"thread_stack"</span><span class="o">]</span>                    <span class="o">=</span> <span class="s2">"192K"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"query_alloc_block_size"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">"16K"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"memlock"</span><span class="o">]</span>                         <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"transaction_isolation"</span><span class="o">]</span>           <span class="o">=</span> <span class="s2">"REPEATABLE-READ"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"tmp_table_size"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"64M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_heap_table_size"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">"64M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"sort_buffer_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"8M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"join_buffer_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"8M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"thread_cache_size"</span><span class="o">]</span>               <span class="o">=</span> <span class="mi">16</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"back_log"</span><span class="o">]</span>                        <span class="o">=</span> <span class="mi">50</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_connections"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">30</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_connect_errors"</span><span class="o">]</span>              <span class="o">=</span> <span class="mi">9999999</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"table_cache"</span><span class="o">]</span>                     <span class="o">=</span> <span class="mi">8192</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"group_concat_max_len"</span><span class="o">]</span>            <span class="o">=</span> <span class="mi">4096</span>
+<span class="pl-c"># Fine Tuning</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>key_buffer<span class="pl-pds">"</span></span>]                      <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>16M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>max_allowed_packet<span class="pl-pds">"</span></span>]              <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>64M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>thread_stack<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>192K<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>query_alloc_block_size<span class="pl-pds">"</span></span>]          <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>16K<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>memlock<span class="pl-pds">"</span></span>]                         <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>transaction_isolation<span class="pl-pds">"</span></span>]           <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>REPEATABLE-READ<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>tmp_table_size<span class="pl-pds">"</span></span>]                  <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>64M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>max_heap_table_size<span class="pl-pds">"</span></span>]             <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>64M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>sort_buffer_size<span class="pl-pds">"</span></span>]                <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>8M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>join_buffer_size<span class="pl-pds">"</span></span>]                <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>8M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>thread_cache_size<span class="pl-pds">"</span></span>]               <span class="pl-k">=</span> <span class="pl-c1">16</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>back_log<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-c1">50</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>max_connections<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> <span class="pl-c1">30</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>max_connect_errors<span class="pl-pds">"</span></span>]              <span class="pl-k">=</span> <span class="pl-c1">9999999</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>sql_modes<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> []
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>table_cache<span class="pl-pds">"</span></span>]                     <span class="pl-k">=</span> <span class="pl-c1">8192</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>group_concat_max_len<span class="pl-pds">"</span></span>]            <span class="pl-k">=</span> <span class="pl-c1">4096</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>expand_fast_index_creation<span class="pl-pds">"</span></span>]      <span class="pl-k">=</span> <span class="pl-c1">false</span>
 
-<span class="c1"># Query Cache Configuration</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"query_cache_size"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">"64M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"query_cache_limit"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"2M"</span>
+<span class="pl-c"># Query Cache Configuration</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>query_cache_size<span class="pl-pds">"</span></span>]                <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>64M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>query_cache_limit<span class="pl-pds">"</span></span>]               <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>2M<span class="pl-pds">"</span></span>
 
-<span class="c1"># Logging and Replication</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"sync_binlog"</span><span class="o">]</span>                     <span class="o">=</span> <span class="mi">1</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"slow_query_log"</span><span class="o">]</span>                  <span class="o">=</span> <span class="mi">1</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"slow_query_log_file"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">"/var/log/mysql/mysql-slow.log"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"long_query_time"</span><span class="o">]</span>                 <span class="o">=</span> <span class="mi">2</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"server_id"</span><span class="o">]</span>                       <span class="o">=</span> <span class="mi">1</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_do_db"</span><span class="o">]</span>                    <span class="o">=</span> <span class="o">[]</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"expire_logs_days"</span><span class="o">]</span>                <span class="o">=</span> <span class="mi">10</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"max_binlog_size"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"100M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_cache_size"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"1M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"binlog_format"</span><span class="o">]</span>                   <span class="o">=</span> <span class="s2">"MIXED"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_bin"</span><span class="o">]</span>                         <span class="o">=</span> <span class="s2">"master-bin"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"relay_log"</span><span class="o">]</span>                       <span class="o">=</span> <span class="s2">"slave-relay-bin"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_slave_updates"</span><span class="o">]</span>               <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_warnings"</span><span class="o">]</span>                    <span class="o">=</span> <span class="kp">true</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"log_long_format"</span><span class="o">]</span>                 <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"bulk_insert_buffer_size"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"64M"</span>
+<span class="pl-c"># Logging and Replication</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>sync_binlog<span class="pl-pds">"</span></span>]                     <span class="pl-k">=</span> <span class="pl-c1">1</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>slow_query_log<span class="pl-pds">"</span></span>]                  <span class="pl-k">=</span> <span class="pl-c1">1</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>slow_query_log_file<span class="pl-pds">"</span></span>]             <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/log/mysql/mysql-slow.log<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>long_query_time<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> <span class="pl-c1">2</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server_id<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-c1">1</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>binlog_do_db<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> []
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>expire_logs_days<span class="pl-pds">"</span></span>]                <span class="pl-k">=</span> <span class="pl-c1">10</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>max_binlog_size<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>100M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>binlog_cache_size<span class="pl-pds">"</span></span>]               <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>1M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>binlog_format<span class="pl-pds">"</span></span>]                   <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>MIXED<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>log_bin<span class="pl-pds">"</span></span>]                         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>master-bin<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>relay_log<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>slave-relay-bin<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>log_slave_updates<span class="pl-pds">"</span></span>]               <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>log_warnings<span class="pl-pds">"</span></span>]                    <span class="pl-k">=</span> <span class="pl-c1">true</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>log_long_format<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>bulk_insert_buffer_size<span class="pl-pds">"</span></span>]         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>64M<span class="pl-pds">"</span></span>
 
-<span class="c1"># MyISAM Specific</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_recover"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"BACKUP"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_sort_buffer_size"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"128M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_max_sort_file_size"</span><span class="o">]</span>       <span class="o">=</span> <span class="s2">"10G"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"myisam_repair_threads"</span><span class="o">]</span>           <span class="o">=</span> <span class="mi">1</span>
+<span class="pl-c"># MyISAM Specific</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>myisam_recover<span class="pl-pds">"</span></span>]                  <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>BACKUP<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>myisam_sort_buffer_size<span class="pl-pds">"</span></span>]         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>128M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>myisam_max_sort_file_size<span class="pl-pds">"</span></span>]       <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>10G<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>myisam_repair_threads<span class="pl-pds">"</span></span>]           <span class="pl-k">=</span> <span class="pl-c1">1</span>
 
-<span class="c1"># InnoDB Specific</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"skip_innodb"</span><span class="o">]</span>                     <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_additional_mem_pool_size"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"32M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_buffer_pool_size"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"128M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_data_file_path"</span><span class="o">]</span>           <span class="o">=</span> <span class="s2">"ibdata1:10M:autoextend"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_file_per_table"</span><span class="o">]</span>           <span class="o">=</span> <span class="kp">true</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_data_home_dir"</span><span class="o">]</span>            <span class="o">=</span> <span class="s2">""</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_thread_concurrency"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">16</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_flush_log_at_trx_commit"</span><span class="o">]</span>  <span class="o">=</span> <span class="mi">1</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_fast_shutdown"</span><span class="o">]</span>            <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_log_buffer_size"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">"64M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_log_file_size"</span><span class="o">]</span>            <span class="o">=</span> <span class="s2">"5M"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_log_files_in_group"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">2</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_max_dirty_pages_pct"</span><span class="o">]</span>      <span class="o">=</span> <span class="mi">80</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_flush_method"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">"O_DIRECT"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"innodb_lock_wait_timeout"</span><span class="o">]</span>        <span class="o">=</span> <span class="mi">120</span>
+<span class="pl-c"># InnoDB Specific</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>skip_innodb<span class="pl-pds">"</span></span>]                     <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_additional_mem_pool_size<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>32M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_buffer_pool_size<span class="pl-pds">"</span></span>]         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>128M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_data_file_path<span class="pl-pds">"</span></span>]           <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>ibdata1:10M:autoextend<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_file_per_table<span class="pl-pds">"</span></span>]           <span class="pl-k">=</span> <span class="pl-c1">true</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_data_home_dir<span class="pl-pds">"</span></span>]            <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_thread_concurrency<span class="pl-pds">"</span></span>]       <span class="pl-k">=</span> <span class="pl-c1">16</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_flush_log_at_trx_commit<span class="pl-pds">"</span></span>]  <span class="pl-k">=</span> <span class="pl-c1">1</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_fast_shutdown<span class="pl-pds">"</span></span>]            <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_log_buffer_size<span class="pl-pds">"</span></span>]          <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>64M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_log_file_size<span class="pl-pds">"</span></span>]            <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>5M<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_log_files_in_group<span class="pl-pds">"</span></span>]       <span class="pl-k">=</span> <span class="pl-c1">2</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_max_dirty_pages_pct<span class="pl-pds">"</span></span>]      <span class="pl-k">=</span> <span class="pl-c1">80</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_flush_method<span class="pl-pds">"</span></span>]             <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>O_DIRECT<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_lock_wait_timeout<span class="pl-pds">"</span></span>]        <span class="pl-k">=</span> <span class="pl-c1">120</span>
 
-<span class="c1"># Replication Settings</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"read_only"</span><span class="o">]</span>        <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"host"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">""</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">""</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">""</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"server"</span><span class="o">][</span><span class="s2">"replication"</span><span class="o">][</span><span class="s2">"port"</span><span class="o">]</span>             <span class="o">=</span> <span class="mi">3306</span>
+<span class="pl-c"># Performance Schema</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>performance_schema<span class="pl-pds">"</span></span>]              <span class="pl-k">=</span> <span class="pl-c1">false</span>
 
-<span class="c1"># XtraBackup Settings</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"configure"</span><span class="o">]</span>                       <span class="o">=</span> <span class="kp">false</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"username"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"backup"</span>
-<span class="k">unless</span> <span class="n">defined?</span><span class="p">(</span><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span><span class="p">)</span>
-  <span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"backup"</span><span class="o">][</span><span class="s2">"password"</span><span class="o">]</span>                      <span class="o">=</span> <span class="n">secure_password</span>
-<span class="k">end</span>
+<span class="pl-c"># Replication Settings</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>read_only<span class="pl-pds">"</span></span>]        <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>host<span class="pl-pds">"</span></span>]             <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>username<span class="pl-pds">"</span></span>]         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>]         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>port<span class="pl-pds">"</span></span>]             <span class="pl-k">=</span> <span class="pl-c1">3306</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>ignore_db<span class="pl-pds">"</span></span>]        <span class="pl-k">=</span> []
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>ignore_table<span class="pl-pds">"</span></span>]     <span class="pl-k">=</span> []
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>ssl_enabled<span class="pl-pds">"</span></span>]      <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>server<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>replication<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>suppress_1592<span class="pl-pds">"</span></span>]    <span class="pl-k">=</span> <span class="pl-c1">false</span>
 
-<span class="c1"># XtraDB Cluster Settings</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"package"</span><span class="o">]</span>                        <span class="o">=</span> <span class="s2">"percona-xtradb-cluster-55"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"binlog_format"</span><span class="o">]</span>                  <span class="o">=</span> <span class="s2">"ROW"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_provider"</span><span class="o">]</span>                 <span class="o">=</span> <span class="s2">"/usr/lib64/libgalera_smm.so"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_address"</span><span class="o">]</span>          <span class="o">=</span> <span class="s2">""</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_slave_threads"</span><span class="o">]</span>            <span class="o">=</span> <span class="mi">2</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_cluster_name"</span><span class="o">]</span>             <span class="o">=</span> <span class="s2">""</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_sst_method"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">"rsync"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_node_name"</span><span class="o">]</span>                <span class="o">=</span> <span class="s2">""</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_notify_cmd"</span><span class="o">]</span>               <span class="o">=</span> <span class="s2">""</span>
+<span class="pl-c"># XtraBackup Settings</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>backup<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>configure<span class="pl-pds">"</span></span>]                       <span class="pl-k">=</span> <span class="pl-c1">false</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>backup<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>username<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>backup<span class="pl-pds">"</span></span>
+<span class="pl-k">unless</span> <span class="pl-k">defined?</span>(node[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>backup<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>])
+  default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>backup<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>password<span class="pl-pds">"</span></span>]                      <span class="pl-k">=</span> secure_password
+<span class="pl-k">end</span>
 
-<span class="c1"># These both are used to build wsrep_sst_receive_address</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_sst_receive_interface"</span><span class="o">]</span>    <span class="o">=</span> <span class="kp">nil</span> <span class="c1"># Works like node["percona"]["server"]["bind_to"]</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"wsrep_sst_receive_port"</span><span class="o">]</span>         <span class="o">=</span> <span class="s2">"4444"</span>
+<span class="pl-c"># XtraDB Cluster Settings</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>package<span class="pl-pds">"</span></span>]                        <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>percona-xtradb-cluster-55<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>binlog_format<span class="pl-pds">"</span></span>]                  <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>ROW<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_provider<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> value_for_platform_family(
+                                                                    <span class="pl-s1"><span class="pl-pds">"</span>debian<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>/usr/lib/libgalera_smm.so<span class="pl-pds">"</span></span>,
+                                                                    <span class="pl-s1"><span class="pl-pds">"</span>rhel<span class="pl-pds">"</span></span> =&gt; <span class="pl-s1"><span class="pl-pds">"</span>/usr/lib64/libgalera_smm.so<span class="pl-pds">"</span></span>
+                                                                  )
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_provider_options<span class="pl-pds">"</span></span>]         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_cluster_address<span class="pl-pds">"</span></span>]          <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_slave_threads<span class="pl-pds">"</span></span>]            <span class="pl-k">=</span> <span class="pl-c1">2</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_cluster_name<span class="pl-pds">"</span></span>]             <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_sst_method<span class="pl-pds">"</span></span>]               <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>rsync<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_node_name<span class="pl-pds">"</span></span>]                <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_notify_cmd<span class="pl-pds">"</span></span>]               <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_sst_auth<span class="pl-pds">"</span></span>]                 <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>
 
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_locks_unsafe_for_binlog"</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"cluster"</span><span class="o">][</span><span class="s2">"innodb_autoinc_lock_mode"</span><span class="o">]</span>       <span class="o">=</span> <span class="mi">2</span>
-</pre></div>
+<span class="pl-c"># These both are used to build wsrep_sst_receive_address</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_sst_receive_interface<span class="pl-pds">"</span></span>]    <span class="pl-k">=</span> <span class="pl-c1">nil</span> <span class="pl-c"># Works like node["percona"]["server"]["bind_to"]</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>wsrep_sst_receive_port<span class="pl-pds">"</span></span>]         <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>4444<span class="pl-pds">"</span></span>
+
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_locks_unsafe_for_binlog<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-c1">1</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>cluster<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>innodb_autoinc_lock_mode<span class="pl-pds">"</span></span>]       <span class="pl-k">=</span> <span class="pl-c1">2</span></pre></div>
 
 <h3>
-<a name="monitoringrb" class="anchor" href="#monitoringrb"><span class="octicon octicon-link"></span></a>Monitoring.rb</h3>
+<a id="monitoringrb" class="anchor" href="#monitoringrb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Monitoring.rb</h3>
 
-<div class="highlight highlight-ruby"><pre><span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"plugins_version"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"1.1.3"</span>
-<span class="n">default</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"plugins_packages"</span><span class="o">]</span> <span class="o">=</span> <span class="sx">%w[percona-nagios-plugins percona-zabbix-templates percona-cacti-templates]</span>
-</pre></div>
+<div class="highlight highlight-ruby"><pre>default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>plugins_version<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>1.1.3<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>plugins_packages<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">%w[</span>percona-nagios-plugins percona-zabbix-templates percona-cacti-templates<span class="pl-pds">]</span></span></pre></div>
+
+<h3>
+<a id="package_reporb" class="anchor" href="#package_reporb" aria-hidden="true"><span class="octicon octicon-link"></span></a>Package_repo.rb</h3>
+
+<div class="highlight highlight-ruby"><pre>default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>yum<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>description<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>Percona Packages<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>yum<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>baseurl<span class="pl-pds">"</span></span>]     <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>http://repo.percona.com/centos/<span class="pl-pse">#{</span><span class="pl-s2">pversion</span><span class="pl-pse"><span class="pl-s2">}</span></span>/os/<span class="pl-pse">#{</span><span class="pl-s2">arch</span><span class="pl-pse"><span class="pl-s2">}</span></span>/<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>yum<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>gpgkey<span class="pl-pds">"</span></span>]      <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>http://www.percona.com/downloads/RPM-GPG-KEY-percona<span class="pl-pds">"</span></span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>yum<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>gpgcheck<span class="pl-pds">"</span></span>]    <span class="pl-k">=</span> <span class="pl-c1">true</span>
+default[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>yum<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>sslverify<span class="pl-pds">"</span></span>]   <span class="pl-k">=</span> <span class="pl-c1">true</span></pre></div>
 
 <h2>
-<a name="explicit-mycnf-templating" class="anchor" href="#explicit-mycnf-templating"><span class="octicon octicon-link"></span></a>Explicit my.cnf templating</h2>
+<a id="explicit-mycnf-templating" class="anchor" href="#explicit-mycnf-templating" aria-hidden="true"><span class="octicon octicon-link"></span></a>Explicit my.cnf templating</h2>
 
 <p>In some situation it is preferable to explicitly define the attributes needed in a <code>my.cnf</code> file. This is enabled by adding categories to the <code>node[:percona][:conf]</code> attributes. All keys found in the <code>node[:percona][:conf]</code> map will represent categories in the <code>my.cnf</code> file. Each category contains a map of attributes that will be written to the <code>my.cnf</code> file for that category. See the example for more details.</p>
 
 <h3>
-<a name="example" class="anchor" href="#example"><span class="octicon octicon-link"></span></a>Example:</h3>
+<a id="example" class="anchor" href="#example" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example:</h3>
 
-<div class="highlight highlight-ruby"><pre><span class="n">node</span><span class="o">[</span><span class="s2">"percona"</span><span class="o">][</span><span class="s2">"conf"</span><span class="o">][</span><span class="s2">"mysqld"</span><span class="o">][</span><span class="s2">"slow_query_log_file"</span><span class="o">]</span> <span class="o">=</span> <span class="s2">"/var/lib/mysql/data/mysql-slow.log"</span>
-</pre></div>
+<div class="highlight highlight-ruby"><pre>node[<span class="pl-s1"><span class="pl-pds">"</span>percona<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>conf<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>mysqld<span class="pl-pds">"</span></span>][<span class="pl-s1"><span class="pl-pds">"</span>slow_query_log_file<span class="pl-pds">"</span></span>] <span class="pl-k">=</span> <span class="pl-s1"><span class="pl-pds">"</span>/var/lib/mysql/data/mysql-slow.log<span class="pl-pds">"</span></span></pre></div>
 
 <p>This configuration would write the <code>mysqld</code> category to the <code>my.cnf</code> file and have an attribute <code>slow_query_log_file</code> whose value would be <code>/var/lib/mysql/data/mysql-slow.log</code>.</p>
 
 <h3>
-<a name="example-output-mycnf" class="anchor" href="#example-output-mycnf"><span class="octicon octicon-link"></span></a>Example output (my.cnf):</h3>
+<a id="example-output-mycnf" class="anchor" href="#example-output-mycnf" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example output (my.cnf):</h3>
 
-<div class="highlight highlight-ini"><pre><span class="k">[mysqld]</span>
-<span class="na">slow_query_log_file</span> <span class="o">=</span> <span class="s">/var/lib/mysql/data/mysql-slow.log</span>
-</pre></div>
+<div class="highlight highlight-ini"><pre><span class="pl-en">[mysqld]</span>
+<span class="pl-k">slow_query_log_file</span> = /var/lib/mysql/data/mysql-slow.log</pre></div>
 
 <h2>
-<a name="dynamically-setting-the-bind-address" class="anchor" href="#dynamically-setting-the-bind-address"><span class="octicon octicon-link"></span></a>Dynamically setting the bind address</h2>
+<a id="dynamically-setting-the-bind-address" class="anchor" href="#dynamically-setting-the-bind-address" aria-hidden="true"><span class="octicon octicon-link"></span></a>Dynamically setting the bind address</h2>
 
 <p>There's a special attribute <code>node["percona"]["server"]["bind_to"]</code> that allows you to dynamically set the bind address. This attribute accepts the values <code>"public_ip"</code>, <code>"private_ip"</code>, <code>"loopback"</code>, or and interface name like <code>"eth0"</code>. Based on this, the recipe will find a corresponding ipv4 address, and override the <code>node["percona"]["server"]["bind_address"]</code> attribute.</p>
 
 <h2>
-<a name="goals" class="anchor" href="#goals"><span class="octicon octicon-link"></span></a>Goals</h2>
+<a id="goals" class="anchor" href="#goals" aria-hidden="true"><span class="octicon octicon-link"></span></a>Goals</h2>
 
 <p>In no particular order:</p>
 
@@ -453,13 +517,17 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 </li>
 <li>Support the most recent Chef 10 &amp; 11 runtime environments</li>
 <li>Be the easiest way to setup a MySQL distribution through Chef</li>
-</ul><h2>
-<a name="todo" class="anchor" href="#todo"><span class="octicon octicon-link"></span></a>TODO</h2>
+</ul>
+
+<h2>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span class="octicon octicon-link"></span></a>TODO</h2>
 
 <ul>
 <li>Fully support all of the standard Chef-supported distributions</li>
-</ul><h2>
-<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+</ul>
+
+<h2>
+<a id="contributing" class="anchor" href="#contributing" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributing</h2>
 
 <ol>
 <li>Fork it</li>
@@ -467,8 +535,10 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
 <li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
 <li>Create new Pull Request</li>
-</ol><h2>
-<a name="contributors" class="anchor" href="#contributors"><span class="octicon octicon-link"></span></a>Contributors</h2>
+</ol>
+
+<h2>
+<a id="contributors" class="anchor" href="#contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contributors</h2>
 
 <p>Many thanks go to the following <a href="https://github.com/phlipper/chef-percona/graphs/contributors">contributors</a> who have helped to make this cookbook even better:</p>
 
@@ -591,6 +661,7 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <ul>
 <li>fixes for custom datadir setting use case</li>
 <li>add more Percona XtraDB cluster options</li>
+<li>XtraDB cluster support for replication over ssl</li>
 </ul>
 </li>
 <li>
@@ -646,6 +717,7 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <li>add default utf8 character set option</li>
 <li>cleanup replication support</li>
 <li>remove dependency on opscode/mysql cookbook</li>
+<li>fix permissions for configuration files</li>
 </ul>
 </li>
 <li>
@@ -747,6 +819,11 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 
 <ul>
 <li>make <code>connect_timeout</code> configurable</li>
+<li>add cluster support for <code>wsrep_sst_auth</code> configuration</li>
+<li>update default for <code>wsrep_provider</code> on Debian</li>
+<li>enable InnoDB tuning for standalone and cluster</li>
+<li>set proper <code>my.cnf</code> location based on platform family</li>
+<li>add missing tunables to 'cluster' <code>my.cnf</code> template</li>
 </ul>
 </li>
 <li>
@@ -808,10 +885,89 @@ the <a href="https://github.com/phlipper/chef-percona/blob/master/.travis.yml">c
 <li>fix missing mysql log directory</li>
 <li>add attribute <code>wait_timeout</code>
 </li>
+<li>data-drive percona yum repository</li>
+<li>add support for <code>jemalloc</code>
+</li>
+<li>fix idempotency with chef-solo and <code>skip_password</code> attribute</li>
+<li>add attribute <code>expand_fast_index_creation</code>
+</li>
 </ul>
 </li>
-</ul><h2>
-<a name="license" class="anchor" href="#license"><span class="octicon octicon-link"></span></a>License</h2>
+<li>
+<strong><a href="https://github.com/gfloyd">@gfloyd</a></strong>
+
+<ul>
+<li>honor <code>skip_configure</code> attribute in cluster recipe</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/paustin01">@paustin01</a></strong>
+
+<ul>
+<li>add <code>encrypted_data_bag_secret_file</code> attribute</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/ajardan">@ajardan</a></strong>
+
+<ul>
+<li>support master-master replication in the <code>replication_master.sql</code> template</li>
+<li>extend master-master capabilities and add ssl support</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/realloc">@realloc</a></strong>
+
+<ul>
+<li>add <code>mysql2</code> gem provider</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/tbunnyman">@tbunnyman</a></strong>
+
+<ul>
+<li>make <code>ignore_db</code> attribute into an array &amp; add matching <code>ignore_table</code> attribute</li>
+<li>add <code>suppress_1592</code> replication attribute</li>
+<li>add <code>sql_modes</code> attribute</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/mzdrale">@mzdrale</a></strong>
+
+<ul>
+<li>fix cluster package name on RHEL systems</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/Sauraus">@Sauraus</a></strong>
+
+<ul>
+<li>fix cluster dependency package installation on RHEL systems</li>
+<li>fix <code>slow_query_logdir</code> path creation</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/jim80net">@jim80net</a></strong>
+
+<ul>
+<li>fix toolkit installation for version 5.6 on RHEL systems</li>
+</ul>
+</li>
+<li>
+<strong><a href="https://github.com/helgi">@helgi</a></strong>
+
+<ul>
+<li>use <code>mysql</code> command vs. a file to check the root password</li>
+<li>generate configuration file before setting up data directory</li>
+<li>ensure <code>includedir</code> is created if provided</li>
+<li>add attribute <code>performance_schema</code>
+</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
 
 <p><strong>chef-percona</strong></p>
 
